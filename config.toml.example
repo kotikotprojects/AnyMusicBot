@@ -1,0 +1,14 @@
+[telegram]
+bot_token = ''
+db_chat = 0
+admin_id = 0
+
+[local]
+db_path = 'db/'
+
+[tokens.spotify]
+client_id = ''
+client_secret = ''
+
+[tokens.deezer]
+arl = ''

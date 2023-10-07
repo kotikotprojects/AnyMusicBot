@@ -1,0 +1,8 @@
+/.idea/
+/tests/
+
+poetry.lock
+config.toml
+db
+dbb
+dbmeta
