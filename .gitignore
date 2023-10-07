@@ -3,6 +3,6 @@
 
 poetry.lock
 config.toml
-db
-dbb
-dbmeta
+
+db/*
+!db/.gitkeep
