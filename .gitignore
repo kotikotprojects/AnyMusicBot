@@ -4,5 +4,4 @@
 poetry.lock
 config.toml
 
-db/*
-!db/.gitkeep
+db
