@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "shazamio"
+version = "0.0.6"
+description = "Is a asynchronous framework from reverse engineered Shazam API written in Python 3.8+ with asyncio and aiohttp."
+authors = ["dotX12"]
+license = "MIT License"
+keywords = ["python", "shazam", "music", "recognize", "api", "async", "asyncio", "aiohttp", "identification"]
+readme = "README.md"
+homepage = "https://github.com/dotX12/ShazamIO"
+repository = "https://github.com/dotX12/ShazamIO"
+include = [
+    "README.md",
+    "LICENSE.txt"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.24.0"
+aiohttp = "^3.8.3"
+pydub = "^0.25.1"
+dataclass-factory = "2.16"
+aiofiles = "*"
+anyio = "^3.6.2"
+pydantic = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "wheel>=0.36,<1.0", "poetry>=1.1,<2", "virtualenv==20.0.33"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+addopts = "-scoped"
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+
+[tool.black]
+line-length = 100
