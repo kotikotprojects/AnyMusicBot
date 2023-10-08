@@ -5,6 +5,7 @@ admin_id = 0
 
 [local]
 db_path = 'db/'
+app_id = 'ANY-MUSIC-BOT'
 
 [tokens.spotify]
 client_id = ''

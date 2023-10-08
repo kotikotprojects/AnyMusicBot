@@ -17,5 +17,8 @@ async def runner():
 def main():
     import asyncio
 
+    from rich.traceback import install
+    install(show_locals=True)
+
     print('Starting...')
     asyncio.run(runner())

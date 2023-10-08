@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "anymusicbot"
+name = "AnyMusicBot"
 version = "0.1.0"
 description = ""
 authors = ["BarsTiger"]
@@ -12,6 +12,7 @@ rich = "^13.6.0"
 py-deezer = "^1.1.4.post1"
 soundcloud-lib = "^0.6.1"
 shazamio = { path = "lib/ShazamIO" }
+sqlitedict = "^2.1.0"
 
 
 [build-system]
