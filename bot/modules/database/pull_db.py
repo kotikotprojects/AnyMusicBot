@@ -1,6 +1,5 @@
 import os
 from .meta import DBMeta, CloudMeta
-from bot.common import bot
 from bot.utils.config import config
 from sqlitedict import SqliteDict
 
@@ -9,6 +8,8 @@ DB_CHAT = config.telegram.db_chat
 
 
 async def pull():
+    from bot.common import bot
+
     if DBMeta().message_id == 'None':
         from . import db
         print('No dbmeta file')

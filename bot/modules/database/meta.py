@@ -1,6 +1,5 @@
 import os.path
 from bot.utils.config import config
-from bot.common import bot
 from aiogram.exceptions import TelegramBadRequest
 import asyncio
 
@@ -72,6 +71,8 @@ class CloudMeta:
 
     @staticmethod
     async def get(item):
+        from bot.common import bot
+
         try:
             if not DBMeta().update_time or not bot.cloudmeta_message_text:
                 raise AttributeError

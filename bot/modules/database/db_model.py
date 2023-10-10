@@ -1,5 +1,4 @@
 from sqlitedict import SqliteDict
-from bot.common import bot
 from bot.utils.config import config
 from aiogram.types import FSInputFile, InputMediaDocument
 from aiogram import exceptions
@@ -17,6 +16,8 @@ class DBDict(SqliteDict):
         super().__init__(DB, tablename=tablename, autocommit=True)
 
     async def write(self):
+        from bot.common import bot
+
         try:
             DBMeta().update_time = time.time_ns()
 
