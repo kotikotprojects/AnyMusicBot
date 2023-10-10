@@ -13,6 +13,3 @@ client_secret = ''
 
 [tokens.deezer]
 arl = ''
-
-[tokens.genius]
-client_acces = ''
