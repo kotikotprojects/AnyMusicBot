@@ -13,6 +13,8 @@ py-deezer = "^1.1.4.post1"
 soundcloud-lib = "^0.6.1"
 shazamio = { path = "lib/ShazamIO" }
 sqlitedict = "^2.1.0"
+spotipy = "^2.23.0"
+attrs = "^23.1.0"
 
 
 [build-system]
