@@ -16,9 +16,23 @@ class MemoryStorageRecord:
     state: Optional[str] = None
 
 
+class StorageDict(DefaultDict):
+    def __init__(self, default_factory=None, **kwargs) -> None:
+        if type(db.fsm.get('fsm')) is not dict:
+            db.fsm['fsm'] = dict()
+
+        super().__init__(default_factory, db.fsm['fsm'])
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        db.fsm['fsm'] = dict(self)
+
+
 class InDbStorage(BaseStorage):
     def __init__(self) -> None:
-        self.storage: DefaultDict[StorageKey, MemoryStorageRecord] = db.fsm
+        self.storage: StorageDict[StorageKey, MemoryStorageRecord] = StorageDict(
+            MemoryStorageRecord
+        )
 
     async def close(self) -> None:
         pass
