@@ -3,6 +3,8 @@ from bot.utils.config import config
 from aiogram.exceptions import TelegramBadRequest
 import asyncio
 
+from typing import Coroutine
+
 loop = asyncio.get_event_loop()
 
 
@@ -62,7 +64,7 @@ def cloud_meta_property(self, prop_name):
 
 class CloudMeta:
     def __init__(self):
-        def prop_generator(name):
+        def prop_generator(name) -> Coroutine:
             return cloud_meta_property(self, name)
 
         self.app_id = prop_generator('app_id')
