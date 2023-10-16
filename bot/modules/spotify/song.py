@@ -24,6 +24,10 @@ class SongItem:
     def all_artists(self):
         return ', '.join(self.artists)
 
+    @property
+    def full_name(self):
+        return f"{self.all_artists} - {self.name}"
+
     def __str__(self):
         return f"{', '.join(self.artists)} - {self.name}"
 
@@ -39,3 +43,11 @@ class Songs(object):
             return None
 
         return [SongItem.from_spotify(item) for item in r['tracks']['items']]
+
+    def from_id(self, song_id: str) -> SongItem | None:
+        r = self.spotify.track(song_id)
+
+        if r is None:
+            return None
+
+        return SongItem.from_spotify(r)

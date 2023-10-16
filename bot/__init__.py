@@ -4,10 +4,11 @@ from rich import print
 async def runner():
     from .common import dp, bot
 
-    from . import handlers
+    from . import handlers, callbacks
 
-    dp.include_router(
-        handlers.router
+    dp.include_routers(
+        handlers.router,
+        callbacks.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
