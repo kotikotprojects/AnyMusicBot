@@ -19,7 +19,7 @@ async def default_inline_query(inline_query: InlineQuery, bot: Bot):
                 title=audio.name,
                 description=audio.all_artists,
                 thumb_url=audio.thumbnail,
-                document_url=audio.preview_url,
+                document_url=audio.preview_url or audio.thumbnail,
                 mime_type='application/zip',
                 reply_markup=InlineKeyboardMarkup(
                     inline_keyboard=[

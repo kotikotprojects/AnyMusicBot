@@ -7,7 +7,7 @@ class SongItem:
     name: str
     id: str
     artists: list[str]
-    preview_url: str
+    preview_url: str | None
     thumbnail: str
 
     @classmethod
@@ -16,7 +16,8 @@ class SongItem:
             name=song_item['name'],
             id=song_item['id'],
             artists=[artist['name'] for artist in song_item['artists']],
-            preview_url=song_item['preview_url'].split('?')[0],
+            preview_url=song_item['preview_url'].split('?')[0] if
+            song_item['preview_url'] is not None else None,
             thumbnail=song_item['album']['images'][1]['url']
         )
 
