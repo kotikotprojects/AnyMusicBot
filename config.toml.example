@@ -1,6 +1,7 @@
 [telegram]
 bot_token = ''
 db_chat = 0
+files_chat = 0
 admin_id = 0
 
 [local]
@@ -13,3 +14,6 @@ client_secret = ''
 
 [tokens.deezer]
 arl = ''
+
+[tokens.genius]
+client_acces = ''
