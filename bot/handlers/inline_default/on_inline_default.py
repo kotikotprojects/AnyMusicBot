@@ -31,7 +31,7 @@ async def default_inline_query(inline_query: InlineQuery, bot: Bot):
                 id='spotc::' + audio.id,
                 audio_file_id=db.spotify[audio.id],
             )
-            for audio in spotify.songs.search(inline_query.query)
+            for audio in spotify.songs.search(inline_query.query, limit=50)
         ],
         cache_time=0,
         is_personal=True
