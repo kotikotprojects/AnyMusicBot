@@ -25,7 +25,8 @@ async def default_inline_query(inline_query: InlineQuery, bot: Bot):
                     inline_keyboard=[
                         [InlineKeyboardButton(text='Downloading...', callback_data='.')]
                     ]
-                )
+                ),
+                caption=audio.full_name,
             ) if audio.id not in list(db.spotify.keys()) else
             InlineQueryResultCachedAudio(
                 id='spotc::' + audio.id,
