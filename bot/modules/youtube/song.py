@@ -1,7 +1,9 @@
 from attrs import define
 import ytmusicapi
 
-from .downloader import Downloader
+from .downloader import Downloader, YouTubeBytestream
+
+from typing import Awaitable
 
 
 @define
@@ -31,7 +33,7 @@ class SongItem:
     def __str__(self):
         return f"{', '.join(self.artists)} - {self.name}"
 
-    def to_bytestream(self):
+    def to_bytestream(self) -> Awaitable[YouTubeBytestream]:
         return Downloader.from_id(self.id).to_bytestream()
 
 

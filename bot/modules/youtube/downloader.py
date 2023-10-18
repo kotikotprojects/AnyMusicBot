@@ -4,22 +4,27 @@ from pytube import YouTube, Stream
 from pydub import AudioSegment
 from io import BytesIO
 
+import asyncio
+
 
 @define
 class YouTubeBytestream:
     file: bytes
     filename: str
+    duration: int
 
     @classmethod
     def from_bytestream(
             cls,
             bytestream: BytesIO,
-            filename: str
+            filename: str,
+            duration: float
     ):
         bytestream.seek(0)
         return cls(
             file=bytestream.read(),
-            filename=filename
+            filename=filename,
+            duration=int(duration),
         )
 
     @property
@@ -46,14 +51,22 @@ class Downloader:
             filename=f'{audio_stream.default_filename}.mp3',
         )
 
-    def to_bytestream(self):
+    def __to_bytestream(self):
         audio_io = BytesIO()
         self.audio_stream.stream_to_buffer(audio_io)
         audio_io.seek(0)
 
+        segment = AudioSegment.from_file(
+            file=audio_io
+        )
+
         return YouTubeBytestream.from_bytestream(
-            AudioSegment.from_file(
-                file=audio_io
-            ).export(BytesIO(), format='mp3', codec='libmp3lame'),
+            segment.export(BytesIO(), format='mp3', codec='libmp3lame'),
             self.filename,
+            segment.duration_seconds
+        )
+
+    async def to_bytestream(self):
+        return await asyncio.get_event_loop().run_in_executor(
+            None, self.__to_bytestream
         )
