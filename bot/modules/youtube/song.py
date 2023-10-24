@@ -31,7 +31,7 @@ class SongItem:
         return f"{self.all_artists} - {self.name}"
 
     def __str__(self):
-        return f"{', '.join(self.artists)} - {self.name}"
+        return self.full_name
 
     def to_bytestream(self) -> Awaitable[YouTubeBytestream]:
         return Downloader.from_id(self.id).to_bytestream()
@@ -51,3 +51,11 @@ class Songs(object):
 
     def search_one(self, query: str) -> SongItem | None:
         return (self.search(query, limit=1) or [None])[0]
+
+    def from_id(self, song_id: str) -> SongItem | None:
+        r = self.ytm.get_song(song_id)
+
+        if r is None:
+            return None
+
+        return SongItem.from_youtube(r)

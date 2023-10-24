@@ -27,13 +27,6 @@ class YouTubeBytestream:
             duration=int(duration),
         )
 
-    @property
-    def dict(self):
-        return {
-            "file": self.file,
-            "filename": self.filename
-        }
-
 
 @define
 class Downloader:
