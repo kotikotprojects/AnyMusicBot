@@ -7,6 +7,7 @@ from .driver import DeezerDriver
 class SongItem:
     name: str
     id: int
+    id_s: str
     artist: str
     preview_url: str | None
     thumbnail: str
@@ -16,6 +17,7 @@ class SongItem:
         return cls(
             name=song_item['title'],
             id=song_item['id'],
+            id_s=str(song_item['id']),
             artist=song_item['artist']['name'],
             preview_url=song_item.get('preview'),
             thumbnail=song_item['album']['cover_medium']
@@ -32,11 +34,12 @@ class SongItem:
 @define
 class FullSongItem:
     name: str
-    id: int
+    id: str
     artists: list[str]
     preview_url: str | None
     duration: int
     thumbnail: str
+    track_dict: dict
 
     @classmethod
     async def from_deezer(cls, song_item: dict):
@@ -53,7 +56,8 @@ class FullSongItem:
                          else None),
             thumbnail=f'https://e-cdns-images.dzcdn.net/images/cover/'
                       f'{song_item["ALB_PICTURE"]}/320x320.jpg',
-            duration=int(song_item['DURATION'])
+            duration=int(song_item['DURATION']),
+            track_dict=song_item
         )
 
     @property
@@ -83,7 +87,7 @@ class Songs(object):
     async def search_one(self, query: str) -> SongItem | None:
         return (await self.search(query, limit=1) or [None])[0]
 
-    async def from_id(self, song_id: int) -> FullSongItem | None:
+    async def from_id(self, song_id: str) -> FullSongItem | None:
         r = await self.driver.reverse_get_track(song_id)
 
         if r is None:

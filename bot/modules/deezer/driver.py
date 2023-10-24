@@ -16,11 +16,11 @@ class DeezerDriver:
 
         return data
 
-    async def reverse_get_track(self, track_id: int | str):
+    async def reverse_get_track(self, track_id: str):
         return await self.engine.call_api(
             'song.getData',
             params={
-                'SNG_ID': str(track_id)
+                'SNG_ID': track_id
             }
         )
 

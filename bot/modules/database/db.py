@@ -16,6 +16,7 @@ class Db(object):
         self.config = DBDict('config')
         self.inline = DBDict('inline')
         self.spotify = DBDict('spotify')
+        self.deezer = DBDict('deezer')
 
     async def write(self):
         await self.config.write()

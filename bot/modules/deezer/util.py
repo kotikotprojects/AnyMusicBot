@@ -63,9 +63,9 @@ class ChunkDecrypter:
     cipher: Cipher
 
     @classmethod
-    def from_track_id(cls, track_id: int):
+    def from_track_id(cls, track_id: str):
         cipher = Cipher(
-            algorithms.Blowfish(get_blowfish_key(str(track_id))),
+            algorithms.Blowfish(get_blowfish_key(track_id)),
             modes.CBC(bytes([i for i in range(8)])),
             default_backend()
         )

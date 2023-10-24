@@ -33,19 +33,19 @@ class DeezerBytestream:
 @define
 class Downloader:
     driver: DeezerDriver
-    song_id: int
+    song_id: str
     track: dict
     song: FullSongItem
 
     @classmethod
     async def build(
             cls,
-            song_id: int,
+            song_id: str,
             driver: DeezerDriver
     ):
         track = await driver.reverse_get_track(song_id)
         return cls(
-            song_id=song_id,
+            song_id=str(song_id),
             driver=driver,
             track=track['results'],
             song=await FullSongItem.from_deezer(track)
@@ -91,7 +91,7 @@ class Downloader:
 class DownloaderBuilder:
     driver: DeezerDriver
 
-    async def from_id(self, song_id: int):
+    async def from_id(self, song_id: str):
         return await Downloader.build(
             song_id=song_id,
             driver=self.driver

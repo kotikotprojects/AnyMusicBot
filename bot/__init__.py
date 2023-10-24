@@ -21,5 +21,8 @@ def main():
     from rich.traceback import install
     install(show_locals=True)
 
+    from nest_asyncio import apply
+    apply()
+
     print('Starting...')
     asyncio.run(runner())
