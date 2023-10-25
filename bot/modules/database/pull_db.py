@@ -48,7 +48,8 @@ async def pull():
     for table in db.__dict__.keys():
         new_table = SqliteDict(DB + 'b', tablename=table)
         for key in new_table.keys():
-            getattr(db, table)[key] = new_table[key]
+            if key is not None:
+                getattr(db, table)[key] = new_table[key]
         new_table.close()
 
     await db.write()
