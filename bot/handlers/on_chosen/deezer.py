@@ -29,7 +29,7 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
         duration=bytestream.song.duration,
     )
 
-    db.spotify[bytestream.song.id] = audio.audio.file_id
+    db.deezer[bytestream.song.id] = audio.audio.file_id
 
     await bot.edit_message_media(
         inline_message_id=chosen_result.inline_message_id,
