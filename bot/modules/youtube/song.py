@@ -5,13 +5,12 @@ from .downloader import Downloader, YouTubeBytestream
 
 from typing import Awaitable
 
+from ..common.song import BaseSongItem
+
 
 @define
-class SongItem:
-    name: str
-    id: str
-    artists: list[str]
-    thumbnail: str
+class SongItem(BaseSongItem):
+    preview_url: None = None
 
     @classmethod
     def from_youtube(cls, song_item: dict):
@@ -22,16 +21,14 @@ class SongItem:
             thumbnail=song_item['thumbnails'][1]['url']
         )
 
-    @property
-    def all_artists(self):
-        return ', '.join(self.artists)
-
-    @property
-    def full_name(self):
-        return f"{self.all_artists} - {self.name}"
-
-    def __str__(self):
-        return self.full_name
+    @classmethod
+    def from_details(cls, details: dict):
+        return cls(
+            name=details['title'],
+            id=details['videoId'],
+            artists=details['author'].split(' & '),
+            thumbnail=details['thumbnail']['thumbnails'][1]['url']
+        )
 
     def to_bytestream(self) -> Awaitable[YouTubeBytestream]:
         return Downloader.from_id(self.id).to_bytestream()
@@ -58,4 +55,4 @@ class Songs(object):
         if r is None:
             return None
 
-        return SongItem.from_youtube(r)
+        return SongItem.from_details(r['videoDetails'])

@@ -2,7 +2,7 @@ from aiogram import Router, F
 
 from aiogram.types import InlineQuery
 
-from bot.markups.deezer import get_deezer_search_results
+from bot.results.deezer import get_deezer_search_results
 
 router = Router()
 

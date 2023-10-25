@@ -1,15 +1,11 @@
 from attrs import define
 import spotipy
 
+from ..common.song import BaseSongItem
+
 
 @define
-class SongItem:
-    name: str
-    id: str
-    artists: list[str]
-    preview_url: str | None
-    thumbnail: str
-
+class SongItem(BaseSongItem):
     @classmethod
     def from_spotify(cls, song_item: dict):
         return cls(
@@ -20,17 +16,6 @@ class SongItem:
             song_item['preview_url'] is not None else None,
             thumbnail=song_item['album']['images'][1]['url']
         )
-
-    @property
-    def all_artists(self):
-        return ', '.join(self.artists)
-
-    @property
-    def full_name(self):
-        return f"{self.all_artists} - {self.name}"
-
-    def __str__(self):
-        return f"{', '.join(self.artists)} - {self.name}"
 
 
 @define

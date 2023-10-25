@@ -2,43 +2,25 @@ from attrs import define
 
 from .driver import DeezerDriver
 
+from ..common.song import BaseSongItem
+
 
 @define
-class SongItem:
-    name: str
-    id: int
-    id_s: str
-    artist: str
-    preview_url: str | None
-    thumbnail: str
-
+class SongItem(BaseSongItem):
     @classmethod
     def from_deezer(cls, song_item: dict):
         return cls(
             name=song_item['title'],
-            id=song_item['id'],
-            id_s=str(song_item['id']),
-            artist=song_item['artist']['name'],
+            id=str(song_item['id']),
+            artists=[song_item['artist']['name']],
             preview_url=song_item.get('preview'),
             thumbnail=song_item['album']['cover_medium']
         )
 
-    @property
-    def full_name(self):
-        return f"{self.artist} - {self.name}"
-
-    def __str__(self):
-        return self.full_name
-
 
 @define
-class FullSongItem:
-    name: str
-    id: str
-    artists: list[str]
-    preview_url: str | None
+class FullSongItem(BaseSongItem):
     duration: int
-    thumbnail: str
     track_dict: dict
 
     @classmethod
@@ -59,17 +41,6 @@ class FullSongItem:
             duration=int(song_item['DURATION']),
             track_dict=song_item
         )
-
-    @property
-    def all_artists(self):
-        return ', '.join(self.artists)
-
-    @property
-    def full_name(self):
-        return f"{self.all_artists} - {self.name}"
-
-    def __str__(self):
-        return self.full_name
 
 
 @define

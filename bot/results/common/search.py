@@ -1,18 +1,25 @@
 from aiogram.types import (
     InlineQueryResultDocument, InlineQueryResultCachedAudio,
-    InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResult
+    InlineKeyboardMarkup, InlineKeyboardButton
 )
 
-from bot.modules.spotify import spotify
-from bot.modules.database import db
+from bot.modules.database.db import DBDict
+
+from bot.modules.common.song import BaseSongItem
+from typing import TypeVar
 
 
-async def get_spotify_search_results(query: str) -> list[
-    InlineQueryResultDocument | InlineQueryResultCachedAudio
-]:
-    return [
+BaseSongT = TypeVar('BaseSongT', bound=BaseSongItem)
+
+
+async def get_common_search_result(
+        audio: BaseSongT,
+        db_table: DBDict,
+        service_id: str
+) -> InlineQueryResultDocument | InlineQueryResultCachedAudio:
+    return (
         InlineQueryResultDocument(
-            id='spot::' + audio.id,
+            id=f'{service_id}::' + audio.id,
             title=audio.name,
             description=audio.all_artists,
             thumb_url=audio.thumbnail,
@@ -24,10 +31,9 @@ async def get_spotify_search_results(query: str) -> list[
                 ]
             ),
             caption=audio.full_name,
-        ) if audio.id not in list(db.spotify.keys()) else
+        ) if audio.id not in list(db_table.keys()) else
         InlineQueryResultCachedAudio(
-            id='spotc::' + audio.id,
-            audio_file_id=db.spotify[audio.id],
+            id=f'{service_id}c::' + audio.id,
+            audio_file_id=db_table[audio.id],
         )
-        for audio in spotify.songs.search(query, limit=50)
-    ]
+    )
