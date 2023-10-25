@@ -1,4 +1,5 @@
 from rich import print
+import contextlib
 
 
 async def runner():
@@ -25,4 +26,7 @@ def main():
     apply()
 
     print('Starting...')
-    asyncio.run(runner())
+    with contextlib.suppress(KeyboardInterrupt):
+        asyncio.run(runner())
+
+    print('[red]Stopped.[/]')
