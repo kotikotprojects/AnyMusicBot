@@ -6,45 +6,108 @@ from aiogram.types import (
 
 from bot.modules.spotify import spotify
 from bot.modules.youtube import youtube, AgeRestrictedError
+from bot.modules.youtube.song import SongItem
+from bot.modules.deezer import deezer
 from bot.utils.config import config
 from bot.modules.database import db
 
 router = Router()
 
 
+def not_strict_name(song, yt_song):
+    if 'feat' in yt_song.name.lower():
+        return any(artist.lower() in yt_song.name.lower() for artist in song.artists)
+    else:
+        return False
+
+
 @router.chosen_inline_result(F.result_id.startswith('spot::'))
 async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
     song = spotify.songs.from_id(chosen_result.result_id.removeprefix('spot::'))
 
+    bytestream = None
+    audio = None
+
+    yt_song: SongItem = youtube.songs.search_one(
+        song.full_name,
+        exact_match=True,
+    )
+    if ((song.all_artists != yt_song.all_artists or song.name != yt_song.name)
+            and not not_strict_name(song, yt_song)):
+        await bot.edit_message_caption(
+            inline_message_id=chosen_result.inline_message_id,
+            caption='🙄 Cannot find this song on YouTube, trying Deezer...',
+            reply_markup=None,
+            parse_mode='HTML',
+        )
+        bytestream = False
+
     try:
-        bytestream = await youtube.songs.search_one(song.full_name).to_bytestream()
+        if bytestream is None:
+            bytestream = await yt_song.to_bytestream()
+
+            audio = await bot.send_audio(
+                chat_id=config.telegram.files_chat,
+                audio=BufferedInputFile(
+                    file=bytestream.file,
+                    filename=bytestream.filename,
+                ),
+                thumbnail=URLInputFile(song.thumbnail),
+                performer=song.all_artists,
+                title=song.name,
+                duration=bytestream.duration,
+            )
+            db.youtube[yt_song.id] = audio.audio.file_id
+
     except AgeRestrictedError:
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
-            caption='🔞 This song is age restricted, so I can\'t download it. '
-                    'Try downloading it from Deezer or SoundCloud',
+            caption='🔞 This song is age restricted, trying Deezer...',
+            reply_markup=None,
+            parse_mode='HTML',
+        )
+
+    if not bytestream:
+        try:
+            deezer_song = await deezer.songs.search_one(
+                song.full_name,
+            )
+
+            bytestream = await (
+                await deezer.downloader.from_id(deezer_song.id)
+            ).to_bytestream()
+
+            audio = await bot.send_audio(
+                chat_id=config.telegram.files_chat,
+                audio=BufferedInputFile(
+                    file=bytestream.file,
+                    filename=bytestream.filename,
+                ),
+                thumbnail=URLInputFile(bytestream.song.thumbnail),
+                performer=bytestream.song.all_artists,
+                title=bytestream.song.name,
+                duration=bytestream.song.duration,
+            )
+
+            db.deezer[bytestream.song.id] = audio.audio.file_id
+        except Exception as e:
+            assert e
+
+    if audio:
+        db.spotify[song.id] = audio.audio.file_id
+
+        await bot.edit_message_media(
+            inline_message_id=chosen_result.inline_message_id,
+            media=InputMediaAudio(media=audio.audio.file_id),
             reply_markup=None
         )
-        return
 
-    audio = await bot.send_audio(
-        chat_id=config.telegram.files_chat,
-        audio=BufferedInputFile(
-            file=bytestream.file,
-            filename=bytestream.filename,
-        ),
-        thumbnail=URLInputFile(song.thumbnail),
-        performer=song.all_artists,
-        title=song.name,
-        duration=bytestream.duration,
-    )
-
-    db.spotify[song.id] = audio.audio.file_id
-
-    await bot.edit_message_media(
-        inline_message_id=chosen_result.inline_message_id,
-        media=InputMediaAudio(media=audio.audio.file_id),
-        reply_markup=None
-    )
+    else:
+        await bot.edit_message_caption(
+            inline_message_id=chosen_result.inline_message_id,
+            caption='🤷‍♂️ Cannot download this song',
+            reply_markup=None,
+            parse_mode='HTML',
+        )
 
     await db.occasionally_write()

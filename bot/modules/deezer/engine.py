@@ -20,6 +20,7 @@ HTTP_HEADERS = {
 @define
 class DeezerEngine:
     cookies: dict
+    arl: str = None
     token: str = None
 
     @classmethod
@@ -34,6 +35,7 @@ class DeezerEngine:
 
         return cls(
             cookies=cookies,
+            arl=arl,
             token=token
         )
 

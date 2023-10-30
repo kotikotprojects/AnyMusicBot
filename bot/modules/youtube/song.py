@@ -38,16 +38,26 @@ class SongItem(BaseSongItem):
 class Songs(object):
     ytm: ytmusicapi.YTMusic
 
-    def search(self, query: str, limit: int = 10) -> list[SongItem] | None:
-        r = self.ytm.search(query, limit=limit, filter='songs')
+    def search(
+            self,
+            query: str,
+            limit: int = 10,
+            exact_match: bool = False
+    ) -> list[SongItem] | None:
+        r = self.ytm.search(
+            query,
+            limit=limit,
+            filter='songs',
+            ignore_spelling=exact_match
+        )
 
         if r is None:
             return None
 
         return [SongItem.from_youtube(song_item) for song_item in r]
 
-    def search_one(self, query: str) -> SongItem | None:
-        return (self.search(query, limit=1) or [None])[0]
+    def search_one(self, query: str, exact_match: bool = False) -> SongItem | None:
+        return (self.search(query, limit=1, exact_match=exact_match) or [None])[0]
 
     def from_id(self, song_id: str) -> SongItem | None:
         r = self.ytm.get_song(song_id)

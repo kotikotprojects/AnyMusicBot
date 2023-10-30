@@ -34,3 +34,6 @@ class DeezerDriver:
         )
 
         return data['data']
+
+    async def renew_engine(self):
+        self.engine = await self.engine.from_arl(self.engine.arl)

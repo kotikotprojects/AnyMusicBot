@@ -15,6 +15,7 @@ class Db(object):
         self.fsm = DBDict('fsm')
         self.config = DBDict('config')
         self.inline = DBDict('inline')
+        self.errors = DBDict('errors')
         self.spotify = DBDict('spotify')
         self.deezer = DBDict('deezer')
         self.youtube = DBDict('youtube')

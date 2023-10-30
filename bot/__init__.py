@@ -6,7 +6,9 @@ async def runner():
     from .common import dp, bot
 
     from . import handlers, callbacks
+    from .modules.error import on_error
 
+    dp.error.register(on_error)
     dp.include_routers(
         handlers.router,
         callbacks.router,
@@ -16,14 +18,20 @@ async def runner():
     await dp.start_polling(bot)
 
 
+def plugins():
+    import nest_asyncio
+    from rich import traceback
+    from icecream import ic
+
+    nest_asyncio.apply()
+    traceback.install()
+    ic.configureOutput(includeContext=True)
+
+
 def main():
     import asyncio
 
-    from rich.traceback import install
-    install(show_locals=True)
-
-    from nest_asyncio import apply
-    apply()
+    plugins()
 
     print('Starting...')
     with contextlib.suppress(KeyboardInterrupt):

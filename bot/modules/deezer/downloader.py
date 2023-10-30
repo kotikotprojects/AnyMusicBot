@@ -44,12 +44,18 @@ class Downloader:
             driver: DeezerDriver
     ):
         track = await driver.reverse_get_track(song_id)
-        return cls(
-            song_id=str(song_id),
-            driver=driver,
-            track=track['results'],
-            song=await FullSongItem.from_deezer(track)
-        )
+        try:
+            return cls(
+                song_id=str(song_id),
+                driver=driver,
+                track=track['results'],
+                song=await FullSongItem.from_deezer(track)
+            )
+        except KeyError:
+            from icecream import ic
+            ic(track)
+            await driver.renew_engine()
+            return await cls.build(song_id, driver)
 
     async def to_bytestream(self) -> DeezerBytestream:
         quality = track_formats.MP3_128
