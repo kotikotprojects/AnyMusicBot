@@ -54,7 +54,10 @@ class Songs(object):
         if r is None:
             return None
 
-        return [SongItem.from_youtube(song_item) for song_item in r]
+        res = []
+        [res.append(x) for x in r if x not in res]
+
+        return [SongItem.from_youtube(song_item) for song_item in res]
 
     def search_one(self, query: str, exact_match: bool = False) -> SongItem | None:
         return (self.search(query, limit=1, exact_match=exact_match) or [None])[0]
