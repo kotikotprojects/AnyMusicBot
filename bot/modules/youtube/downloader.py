@@ -27,21 +27,33 @@ class YouTubeBytestream:
             duration=int(duration),
         )
 
+    async def rerender(self):
+        segment = AudioSegment.from_file(
+            file=self.file
+        )
+
+        self.file = segment.export(BytesIO(), format='mp3', codec='libmp3lame')
+        return self
+
 
 @define
 class Downloader:
     audio_stream: Stream
     filename: str
+    duration: int
 
     @classmethod
     def from_id(cls, yt_id: str):
         video = YouTube.from_id(yt_id)
+
         audio_stream = video.streams.filter(
             only_audio=True,
         ).order_by('abr').desc().first()
+
         return cls(
             audio_stream=audio_stream,
             filename=f'{audio_stream.default_filename}.mp3',
+            duration=int(video.length),
         )
 
     def __to_bytestream(self):
@@ -49,14 +61,10 @@ class Downloader:
         self.audio_stream.stream_to_buffer(audio_io)
         audio_io.seek(0)
 
-        segment = AudioSegment.from_file(
-            file=audio_io
-        )
-
         return YouTubeBytestream.from_bytestream(
-            segment.export(BytesIO(), format='mp3', codec='libmp3lame'),
+            audio_io,
             self.filename,
-            segment.duration_seconds
+            self.duration,
         )
 
     async def to_bytestream(self):
