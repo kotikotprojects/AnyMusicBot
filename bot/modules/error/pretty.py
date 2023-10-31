@@ -6,16 +6,18 @@ import re
 
 class PrettyException:
     def __init__(self, e: Exception):
-        self.pretty_exception = f"""
-❌ Error! Report it to admins:
-🐊 <code>{e.__traceback__.tb_frame.f_code.co_filename.replace(os.getcwd(), "")}\r
-</code>:{e.__traceback__.tb_frame.f_lineno}
+        self.long = f"""
 😍 {e.__class__.__name__}
 👉 {"".join(traceback.format_exception_only(e)).strip()}
-
-⬇️ Trace:
-{self.get_full_stack()}
+🐊 <code>{e.__traceback__.tb_frame.f_code.co_filename.replace(os.getcwd(), "")}\r
+</code>:{e.__traceback__.tb_frame.f_lineno}
 """
+        self.short = (f'{e.__class__.__name__}: '
+                      f'{"".join(traceback.format_exception_only(e)).strip()}')
+
+        self.pretty_exception = (f"{self.long}\n\n"
+                                 f"⬇️ Trace:"
+                                 f"{self.get_full_stack()}")
 
     @staticmethod
     def get_full_stack():
