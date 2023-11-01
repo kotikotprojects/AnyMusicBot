@@ -24,15 +24,5 @@ anyio = "^3.6.2"
 pydantic = "*"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "wheel>=0.36,<1.0", "poetry>=1.1,<2", "virtualenv==20.0.33"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-
-[tool.pytest.ini_options]
-addopts = "-scoped"
-asyncio_mode = "auto"
-filterwarnings = ["ignore::DeprecationWarning"]
-
-
-[tool.black]
-line-length = 100
