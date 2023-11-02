@@ -2,10 +2,11 @@ import os
 import traceback
 import contextlib
 import re
+from typing import Type
 
 
 class PrettyException:
-    def __init__(self, e: Exception):
+    def __init__(self, e: Type[BaseException] | Exception):
         self.long = f"""
 😍 {e.__class__.__name__}
 👉 {"".join(traceback.format_exception_only(e)).strip()}

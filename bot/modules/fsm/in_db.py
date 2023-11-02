@@ -17,7 +17,7 @@ class MemoryStorageRecord:
 
 
 class StorageDict(DefaultDict):
-    def __init__(self, default_factory=None, **kwargs) -> None:
+    def __init__(self, default_factory=None) -> None:
         if type(db.fsm.get('fsm')) is not dict:
             db.fsm['fsm'] = dict()
 

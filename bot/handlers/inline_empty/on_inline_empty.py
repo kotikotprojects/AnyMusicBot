@@ -1,14 +1,15 @@
-from aiogram import Router, Bot, F
+from aiogram import Router, F
 from aiogram.types import (
     InlineQuery, InputTextMessageContent, InlineQueryResultArticle
 )
+
 from bot.keyboards.inline.full_menu import get_full_menu_kb
 
 router = Router()
 
 
 @router.inline_query(F.query == '')
-async def empty_inline_query(inline_query: InlineQuery, bot: Bot):
+async def empty_inline_query(inline_query: InlineQuery):
     await inline_query.answer(
         [
             InlineQueryResultArticle(
