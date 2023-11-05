@@ -16,6 +16,7 @@ class Db(object):
         self.config = DBDict('config')
         self.inline = DBDict('inline')
         self.errors = DBDict('errors')
+        self.settings = DBDict('settings')
         self.spotify = DBDict('spotify')
         self.deezer = DBDict('deezer')
         self.youtube = DBDict('youtube')

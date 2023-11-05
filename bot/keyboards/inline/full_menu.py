@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import (InlineKeyboardMarkup, InlineKeyboardButton,
                                     InlineKeyboardBuilder)
-from bot.callbacks.factories.full_menu import FullMenuCallback
+from bot.factories.full_menu import FullMenuCallback
 
 
 def get_full_menu_kb() -> InlineKeyboardMarkup:
