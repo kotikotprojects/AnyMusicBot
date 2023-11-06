@@ -15,6 +15,7 @@ def get_setting_kb(s_id: str, user_id: str) -> InlineKeyboardMarkup:
                          '✅ ' if setting.value == choice else ''
                      ) + setting.choices[choice],
                 callback_data=SettingChoiceCallback(
+                    s_id=s_id,
                     choice=choice,
                 ).pack()
             )

@@ -34,9 +34,12 @@ settings_strings: dict[str, Setting] = {
 
 @dataclass
 class UserSettings:
-    user_id: str
+    user_id: str | int
 
     def __post_init__(self):
+        if type(self.user_id) is int:
+            self.user_id = str(self.user_id)
+
         if db.settings.get(self.user_id) is None:
             db.settings[self.user_id] = dict(
                 (setting, list(settings_strings[setting].choices)[0]) for setting in
@@ -51,4 +54,6 @@ class UserSettings:
         return s
 
     def __setitem__(self, key, value):
-        db.settings[self.user_id][key] = value
+        h = db.settings[self.user_id]
+        h[key] = value
+        db.settings[self.user_id] = h

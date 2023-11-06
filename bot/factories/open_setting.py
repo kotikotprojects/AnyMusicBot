@@ -6,4 +6,5 @@ class OpenSettingCallback(CallbackData, prefix='setting'):
 
 
 class SettingChoiceCallback(CallbackData, prefix='s_choice'):
+    s_id: str
     choice: str
