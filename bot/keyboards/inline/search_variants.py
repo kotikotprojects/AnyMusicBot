@@ -16,10 +16,10 @@ spotify = {
 }
 
 
-def get_search_variants_kb(
+def get_search_variants(
         query: str,
         services: dict[str, str],
-) -> InlineKeyboardMarkup:
+) -> list[list[InlineKeyboardButton]]:
     buttons = [
         [
             InlineKeyboardButton(
@@ -29,4 +29,14 @@ def get_search_variants_kb(
         ] for key in services.keys()
     ]
 
-    return InlineKeyboardBuilder(buttons).as_markup()
+    return buttons
+
+
+def get_search_variants_kb(
+        query: str,
+        services: dict[str, str],
+) -> InlineKeyboardMarkup:
+    return InlineKeyboardBuilder(get_search_variants(
+        query,
+        services
+    )).as_markup()
