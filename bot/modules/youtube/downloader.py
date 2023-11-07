@@ -29,10 +29,10 @@ class YouTubeBytestream:
 
     async def rerender(self):
         segment = AudioSegment.from_file(
-            file=self.file
+            file=BytesIO(self.file)
         )
 
-        self.file = segment.export(BytesIO(), format='mp3', codec='libmp3lame')
+        self.file = segment.export(BytesIO(), format='mp3', codec='libmp3lame').read()
         return self
 
 

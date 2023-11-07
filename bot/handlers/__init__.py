@@ -9,11 +9,12 @@ from . import (
     on_chosen,
 )
 
-from bot.middlewares import SaveChosenMiddleware
+from bot.middlewares import SaveChosenMiddleware, SettingsInjectorMiddleware
 
 router = Router()
 
 router.chosen_inline_result.outer_middleware(SaveChosenMiddleware())
+router.chosen_inline_result.middleware(SettingsInjectorMiddleware())
 
 router.include_routers(
     initialize.router,

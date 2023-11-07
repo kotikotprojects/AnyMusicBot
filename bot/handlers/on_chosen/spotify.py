@@ -10,6 +10,7 @@ from bot.modules.youtube.song import SongItem
 from bot.modules.deezer import deezer
 from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.settings import UserSettings
 
 router = Router()
 
@@ -22,13 +23,14 @@ def not_strict_name(song, yt_song):
 
 
 @router.chosen_inline_result(F.result_id.startswith('spot::'))
-async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
+async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
+                        settings: UserSettings):
     song = spotify.songs.from_id(chosen_result.result_id.removeprefix('spot::'))
 
     bytestream = None
     audio = None
 
-    yt_song: SongItem = youtube.songs.search_one(
+    yt_song: SongItem | None = youtube.songs.search_one(
         song.full_name,
         exact_match=True,
     )
@@ -40,6 +42,7 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
             reply_markup=None,
             parse_mode='HTML',
         )
+        yt_song = None
         bytestream = False
 
     try:
@@ -66,6 +69,7 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
             reply_markup=None,
             parse_mode='HTML',
         )
+        yt_song = None
 
     if not bytestream:
         try:
@@ -109,5 +113,43 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
             reply_markup=None,
             parse_mode='HTML',
         )
+
+    if yt_song and settings['recode_youtube'].value == 'yes':
+        await bot.edit_message_caption(
+            inline_message_id=chosen_result.inline_message_id,
+            caption='🔄 Recoding...',
+            reply_markup=None,
+            parse_mode='HTML',
+        )
+        await bytestream.rerender()
+
+        audio = await bot.send_audio(
+            chat_id=config.telegram.files_chat,
+            audio=BufferedInputFile(
+                file=bytestream.file,
+                filename=bytestream.filename,
+            ),
+            thumbnail=URLInputFile(song.thumbnail),
+            performer=song.all_artists,
+            title=song.name,
+            duration=bytestream.duration,
+        )
+        db.youtube[yt_song.id] = audio.audio.file_id
+        db.spotify[song.id] = audio.audio.file_id
+        db.recoded[yt_song.id] = True
+        db.recoded[song.id] = True
+
+        await bot.edit_message_caption(
+            inline_message_id=chosen_result.inline_message_id,
+            caption='',
+            reply_markup=None,
+        )
+        await bot.edit_message_media(
+            inline_message_id=chosen_result.inline_message_id,
+            media=InputMediaAudio(media=audio.audio.file_id)
+        )
+    elif yt_song and settings['recode_youtube'].value == 'no':
+        db.recoded[yt_song.id] = audio.message_id
+        db.recoded[song.id] = audio.message_id
 
     await db.occasionally_write()

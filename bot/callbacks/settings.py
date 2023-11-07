@@ -2,6 +2,7 @@ from aiogram import Router, Bot
 from aiogram.types import (
     CallbackQuery
 )
+from aiogram.exceptions import TelegramBadRequest
 
 from bot.factories.open_setting import OpenSettingCallback, SettingChoiceCallback
 
@@ -34,11 +35,14 @@ async def on_change_setting(
         bot: Bot
 ):
     UserSettings(callback_query.from_user.id)[callback_data.s_id] = callback_data.choice
-    await bot.edit_message_text(
-        inline_message_id=callback_query.inline_message_id,
-        text=settings_strings[callback_data.s_id].description,
-        reply_markup=get_setting_kb(
-            callback_data.s_id,
-            str(callback_query.from_user.id)
+    try:
+        await bot.edit_message_text(
+            inline_message_id=callback_query.inline_message_id,
+            text=settings_strings[callback_data.s_id].description,
+            reply_markup=get_setting_kb(
+                callback_data.s_id,
+                str(callback_query.from_user.id)
+            )
         )
-    )
+    except TelegramBadRequest:
+        pass

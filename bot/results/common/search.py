@@ -35,5 +35,10 @@ async def get_common_search_result(
         InlineQueryResultCachedAudio(
             id=f'{service_id}c::' + audio.id,
             audio_file_id=db_table[audio.id],
+            reply_markup=InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [InlineKeyboardButton(text='Verifying...', callback_data='.')]
+                ]
+            ),
         )
     )

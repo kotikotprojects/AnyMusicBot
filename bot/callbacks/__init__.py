@@ -4,12 +4,13 @@ from . import (
     on_home,
     settings,
 )
-from bot.middlewares import PrivateButtonMiddleware
+from bot.middlewares import PrivateButtonMiddleware, SettingsInjectorMiddleware
 
 
 router = Router()
 
 router.callback_query.middleware(PrivateButtonMiddleware())
+router.callback_query.middleware(SettingsInjectorMiddleware())
 
 router.include_routers(
     full_menu.router,

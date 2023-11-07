@@ -20,6 +20,7 @@ class Db(object):
         self.spotify = DBDict('spotify')
         self.deezer = DBDict('deezer')
         self.youtube = DBDict('youtube')
+        self.recoded = DBDict('recoded')
 
     async def write(self):
         await self.config.write()
