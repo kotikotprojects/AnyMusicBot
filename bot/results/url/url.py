@@ -3,13 +3,14 @@ from aiogram.types import (
 )
 
 from bot.modules.url import recognise_music_service, get_id
+from bot.modules.settings import UserSettings
 
 from ..common.search import get_common_search_result
 
 import inspect
 
 
-async def get_url_results(query: str) -> list[
+async def get_url_results(query: str, settings: UserSettings) -> list[
     InlineQueryResultDocument | InlineQueryResultCachedAudio
 ]:
     service = recognise_music_service(query)
@@ -25,5 +26,6 @@ async def get_url_results(query: str) -> list[
             audio=audio,
             db_table=service.db_table,
             service_id=service.name,
+            settings=settings
         )
     ]

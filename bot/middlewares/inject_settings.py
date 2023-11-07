@@ -13,10 +13,14 @@ class SettingsInjectorMiddleware(BaseMiddleware):
             event: TelegramObject,
             data: Dict[str, Any],
     ):
-        if not hasattr(event, 'from_user'):
+        if (not hasattr(event, 'from_user') and
+                (not hasattr(event, 'inline_query') or event.inline_query is None)):
             return await handler(event, data)
-
-        settings = UserSettings(event.from_user.id)
-        data['settings'] = settings
+        elif hasattr(event, 'inline_query') and event.inline_query is not None:
+            settings = UserSettings(event.inline_query.from_user.id)
+            data['settings'] = settings
+        else:
+            settings = UserSettings(event.from_user.id)
+            data['settings'] = settings
 
         return await handler(event, data)

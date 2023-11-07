@@ -4,6 +4,7 @@ from aiogram.types import (
 )
 
 from bot.modules.database.db import DBDict
+from bot.modules.settings import UserSettings
 
 from bot.modules.common.song import BaseSongItem
 from typing import TypeVar
@@ -15,7 +16,8 @@ BaseSongT = TypeVar('BaseSongT', bound=BaseSongItem)
 async def get_common_search_result(
         audio: BaseSongT,
         db_table: DBDict,
-        service_id: str
+        service_id: str,
+        settings: UserSettings
 ) -> InlineQueryResultDocument | InlineQueryResultCachedAudio:
     return (
         InlineQueryResultDocument(
@@ -23,7 +25,8 @@ async def get_common_search_result(
             title=audio.name,
             description=audio.all_artists,
             thumb_url=audio.thumbnail,
-            document_url=audio.preview_url or audio.thumbnail,
+            document_url=(audio.preview_url or audio.thumbnail) if
+            settings['search_preview'].value == 'preview' else audio.thumbnail,
             mime_type='application/zip',
             reply_markup=InlineKeyboardMarkup(
                 inline_keyboard=[

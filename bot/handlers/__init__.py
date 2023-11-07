@@ -15,6 +15,7 @@ router = Router()
 
 router.chosen_inline_result.outer_middleware(SaveChosenMiddleware())
 router.chosen_inline_result.middleware(SettingsInjectorMiddleware())
+router.inline_query.middleware(SettingsInjectorMiddleware())
 
 router.include_routers(
     initialize.router,
