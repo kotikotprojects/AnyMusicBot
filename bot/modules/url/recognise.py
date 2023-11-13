@@ -9,11 +9,12 @@ from bot.modules.database.db import DBDict
 from bot.modules.youtube import youtube
 from bot.modules.spotify import spotify
 from bot.modules.deezer import deezer
+from bot.modules.soundcloud import soundcloud
 
 
 @dataclass
 class RecognisedService:
-    name: Literal['yt', 'spot', 'deez']
+    name: Literal['yt', 'spot', 'deez', 'sc']
     db_table: DBDict
     by_id_func: Callable | Awaitable
     parse_result: ParseResult
@@ -40,6 +41,13 @@ def recognise_music_service(url: str) -> RecognisedService | None:
             name='deez',
             db_table=db.deezer,
             by_id_func=deezer.songs.from_id,
+            parse_result=url
+        )
+    elif url.netloc.endswith('soundcloud.com'):
+        return RecognisedService(
+            name='sc',
+            db_table=db.soundcloud,
+            by_id_func=soundcloud.songs.from_url,
             parse_result=url
         )
     else:

@@ -15,5 +15,8 @@ client_secret = ''
 [tokens.deezer]
 arl = ''
 
+[tokens.soundcloud]
+client_id = ''
+
 [tokens.genius]
 client_acces = ''

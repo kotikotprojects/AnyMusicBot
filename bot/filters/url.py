@@ -25,6 +25,7 @@ class MusicUrlFilter(BaseFilter):
                             'spotify.link',
                             'deezer.page.link',
                             'deezer.com',
+                            'soundcloud.com'
                         ]
                     )
                 )

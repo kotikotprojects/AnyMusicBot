@@ -28,3 +28,8 @@ async def get_id(recognised: RecognisedService):
         else:
             url = await get_url_after_redirect(recognised.parse_result.geturl())
             return url.split('/')[-1].split('?')[0]
+
+    elif recognised.name == 'sc':
+        if not recognised.parse_result.netloc.startswith('on'):
+            return recognised.parse_result.geturl()
+        return await get_url_after_redirect(recognised.parse_result.geturl())

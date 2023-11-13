@@ -20,6 +20,7 @@ class Db(object):
         self.spotify = DBDict('spotify')
         self.deezer = DBDict('deezer')
         self.youtube = DBDict('youtube')
+        self.soundcloud = DBDict('soundcloud')
         self.recoded = DBDict('recoded')
 
     async def write(self):

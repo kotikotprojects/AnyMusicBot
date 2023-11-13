@@ -15,7 +15,7 @@ class BaseSongItem:
 
     @property
     def full_name(self):
-        return f"{self.all_artists} - {self.name}"
+        return f"{self.all_artists} - {self.name}" if self.artists else self.name
 
     def __str__(self):
         return self.full_name
