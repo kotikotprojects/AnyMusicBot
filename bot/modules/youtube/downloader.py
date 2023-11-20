@@ -27,13 +27,18 @@ class YouTubeBytestream:
             duration=int(duration),
         )
 
-    async def rerender(self):
+    async def __rerender(self):
         segment = AudioSegment.from_file(
             file=BytesIO(self.file)
         )
 
         self.file = segment.export(BytesIO(), format='mp3', codec='libmp3lame').read()
         return self
+
+    async def rerender(self):
+        return await asyncio.get_event_loop().run_in_executor(
+            None, self.__rerender
+        )
 
 
 @define
