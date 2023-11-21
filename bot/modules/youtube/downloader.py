@@ -4,6 +4,8 @@ from pytube import YouTube, Stream
 from pydub import AudioSegment
 from io import BytesIO
 
+from concurrent.futures import ThreadPoolExecutor
+
 import asyncio
 
 
@@ -27,7 +29,7 @@ class YouTubeBytestream:
             duration=int(duration),
         )
 
-    async def __rerender(self):
+    def __rerender(self):
         segment = AudioSegment.from_file(
             file=BytesIO(self.file)
         )
@@ -36,9 +38,10 @@ class YouTubeBytestream:
         return self
 
     async def rerender(self):
-        return await asyncio.get_event_loop().run_in_executor(
-            None, self.__rerender
-        )
+        with ThreadPoolExecutor() as executor:
+            return await asyncio.get_running_loop().run_in_executor(
+                executor, self.__rerender
+            )
 
 
 @define
