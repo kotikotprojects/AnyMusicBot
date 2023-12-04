@@ -28,6 +28,18 @@ settings_strings: dict[str, Setting] = {
             'no': 'Send original file',
             'yes': 'Recode to libmp3lame'
         },
+    ),
+    'exact_spotify_search': Setting(
+        name='Only exact Spotify matches',
+        description='When searching on Youtube from Spotify, show only exact matches, '
+                    'may protect against inaccurate matches, but at the same time it '
+                    'can lose reuploaded tracks. Should be enabled always, except in '
+                    'situations where the track is not found on both YouTube and '
+                    'Deezer',
+        choices={
+            'yes': 'Only exact matches',
+            'no': 'Fuzzy matches also'
+        },
     )
 }
 
@@ -50,7 +62,11 @@ class UserSettings:
         s = settings_strings.get(item)
         if s is None:
             return None
-        s.value = db.settings[self.user_id][item]
+        try:
+            s.value = db.settings[self.user_id][item]
+        except KeyError:
+            s.value = list(s.choices)[0]
+            self[item] = s.value
         return s
 
     def __setitem__(self, key, value):

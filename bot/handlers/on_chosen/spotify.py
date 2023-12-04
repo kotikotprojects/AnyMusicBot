@@ -34,16 +34,17 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         song.full_name,
         exact_match=True,
     )
-    if ((song.all_artists != yt_song.all_artists or song.name != yt_song.name)
-            and not not_strict_name(song, yt_song)):
-        await bot.edit_message_caption(
-            inline_message_id=chosen_result.inline_message_id,
-            caption='🙄 Cannot find this song on YouTube, trying Deezer...',
-            reply_markup=None,
-            parse_mode='HTML',
-        )
-        yt_song = None
-        bytestream = False
+    if settings['exact_spotify_search'].value == 'yes':
+        if ((song.all_artists != yt_song.all_artists or song.name != yt_song.name)
+                and not not_strict_name(song, yt_song)):
+            await bot.edit_message_caption(
+                inline_message_id=chosen_result.inline_message_id,
+                caption='🙄 Cannot find this song on YouTube, trying Deezer...',
+                reply_markup=None,
+                parse_mode='HTML',
+            )
+            yt_song = None
+            bytestream = False
 
     try:
         if bytestream is None:
@@ -98,7 +99,8 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
             assert e
 
     if audio:
-        db.spotify[song.id] = audio.audio.file_id
+        if settings['exact_spotify_search'].value == 'yes':
+            db.spotify[song.id] = audio.audio.file_id
 
         await bot.edit_message_media(
             inline_message_id=chosen_result.inline_message_id,
@@ -135,9 +137,11 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
             duration=bytestream.duration,
         )
         db.youtube[yt_song.id] = audio.audio.file_id
-        db.spotify[song.id] = audio.audio.file_id
         db.recoded[yt_song.id] = True
-        db.recoded[song.id] = True
+
+        if settings['exact_spotify_search'].value == 'yes':
+            db.spotify[song.id] = audio.audio.file_id
+            db.recoded[song.id] = True
 
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
@@ -150,6 +154,7 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         )
     elif yt_song and settings['recode_youtube'].value == 'no':
         db.recoded[yt_song.id] = audio.message_id
-        db.recoded[song.id] = audio.message_id
+        if settings['exact_spotify_search'].value == 'yes':
+            db.recoded[song.id] = audio.message_id
 
     await db.occasionally_write()
