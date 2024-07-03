@@ -1,5 +1,5 @@
 # https://pypi.org/project/music-helper/
-
+import warnings
 import re
 import hashlib
 
@@ -64,11 +64,13 @@ class ChunkDecrypter:
 
     @classmethod
     def from_track_id(cls, track_id: str):
-        cipher = Cipher(
-            algorithms.Blowfish(get_blowfish_key(track_id)),
-            modes.CBC(bytes([i for i in range(8)])),
-            default_backend()
-        )
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore")
+            cipher = Cipher(
+                algorithms.Blowfish(get_blowfish_key(track_id)),
+                modes.CBC(bytes([i for i in range(8)])),
+                default_backend()
+            )
 
         return cls(
             cipher=cipher

@@ -98,4 +98,3 @@ async def on_cached_chosen(chosen_result: ChosenInlineResult, bot: Bot,
     else:
         db.youtube[song_id] = audio.audio.file_id
     db.recoded[song_id] = True
-    await db.occasionally_write()

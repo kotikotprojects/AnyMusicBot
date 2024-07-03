@@ -79,5 +79,3 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         )
     else:
         db.recoded[song.id] = audio.message_id
-
-    await db.occasionally_write()

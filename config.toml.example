@@ -1,11 +1,10 @@
 [telegram]
 bot_token = ''
-db_chat = 0
 files_chat = 0
 admin_id = 0
 
 [local]
-db_path = 'db/'
+db_path = 'db.db'
 app_id = 'ANY-MUSIC-BOT'
 
 [tokens.spotify]

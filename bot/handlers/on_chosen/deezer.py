@@ -36,5 +36,3 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
         media=InputMediaAudio(media=audio.audio.file_id),
         reply_markup=None
     )
-
-    await db.occasionally_write()

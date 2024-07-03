@@ -156,5 +156,3 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         db.recoded[yt_song.id] = audio.message_id
         if settings['exact_spotify_search'].value == 'yes':
             db.recoded[song.id] = audio.message_id
-
-    await db.occasionally_write()

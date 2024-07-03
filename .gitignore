@@ -7,4 +7,4 @@ config.toml
 */__pycache__/
 .cache
 
-db
+db.db
