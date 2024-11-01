@@ -1,10 +1,9 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.soundcloud import get_soundcloud_search_results
 from bot.filters import ServiceSearchMultiletterFilter
 from bot.modules.settings import UserSettings
+from bot.results.soundcloud import get_soundcloud_search_results
 
 router = Router()
 

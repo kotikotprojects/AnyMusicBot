@@ -1,17 +1,12 @@
-from aiogram import Router, Bot, F
-from aiogram.types import (
-    BufferedInputFile,
-    InputMediaAudio,
-    ChosenInlineResult,
-)
+from io import BytesIO
 
-from bot.modules.youtube.downloader import YouTubeBytestream
+from aiogram import Bot, F, Router
+from aiogram.types import BufferedInputFile, ChosenInlineResult, InputMediaAudio
 
-from bot.utils.config import config
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
-
-from io import BytesIO
+from bot.modules.youtube.downloader import YouTubeBytestream
+from bot.utils.config import config
 
 router = Router()
 

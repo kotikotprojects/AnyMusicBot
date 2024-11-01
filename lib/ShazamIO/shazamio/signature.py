@@ -1,9 +1,10 @@
-from typing import Dict, List
 from base64 import b64decode, b64encode
-from math import exp, sqrt
 from binascii import crc32
-from io import BytesIO
 from ctypes import *
+from io import BytesIO
+from math import exp, sqrt
+from typing import Dict, List
+
 from .enums import FrequencyBand, SampleRate
 
 DATA_URI_PREFIX = "data:audio/vnd.shazam.sig;base64,"

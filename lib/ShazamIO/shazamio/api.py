@@ -1,21 +1,17 @@
 import pathlib
-import uuid
 import time
-from typing import Optional
+import uuid
+from typing import Any, Dict, Optional, Union
 
 from pydub import AudioSegment
 
-from typing import Dict, Any, Union
-
-from .misc import Request
-from .misc import ShazamUrl
+from .converter import Converter, Geo
+from .enums import GenreMusic
+from .misc import Request, ShazamUrl
 from .schemas.artists import ArtistQuery
 from .signature import DecodedMessage
-from .enums import GenreMusic
-from .converter import Converter, Geo
 from .typehints import CountryCode
-from .utils import ArtistQueryGenerator
-from .utils import get_song
+from .utils import ArtistQueryGenerator, get_song
 
 
 class Shazam(Converter, Geo, Request):

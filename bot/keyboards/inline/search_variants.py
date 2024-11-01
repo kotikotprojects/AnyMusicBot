@@ -1,9 +1,8 @@
 from aiogram.utils.keyboard import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
     InlineKeyboardBuilder,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
-
 
 deezer = {"d": "🎵 Search in Deezer"}
 soundcloud = {"c": "☁️ Search in SoundCloud"}

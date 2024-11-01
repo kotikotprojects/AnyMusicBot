@@ -1,7 +1,7 @@
+from typing import Any, Awaitable, Callable, Dict
+
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
 from aiogram.types import CallbackQuery
-
-from typing import Any, Awaitable, Callable, Dict
 
 from bot.modules.database import db
 

@@ -1,18 +1,18 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
     BufferedInputFile,
-    URLInputFile,
-    InputMediaAudio,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.spotify import spotify
-from bot.modules.youtube import youtube, AgeRestrictedError
-from bot.modules.youtube.song import SongItem
-from bot.modules.deezer import deezer
-from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.deezer import deezer
 from bot.modules.settings import UserSettings
+from bot.modules.spotify import spotify
+from bot.modules.youtube import AgeRestrictedError, youtube
+from bot.modules.youtube.song import SongItem
+from bot.utils.config import config
 
 router = Router()
 

@@ -1,5 +1,4 @@
 import aiohttp
-
 from shazamio.exceptions import BadMethod
 from shazamio.utils import validate_json
 

@@ -1,5 +1,6 @@
 from aiogram import Router
-from . import spotify, deezer, youtube, soundcloud, recode_cached, suppress_verify
+
+from . import deezer, recode_cached, soundcloud, spotify, suppress_verify, youtube
 
 router = Router()
 

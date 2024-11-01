@@ -1,6 +1,6 @@
-from .recognise import RecognisedService
-
 import aiohttp
+
+from .recognise import RecognisedService
 
 
 async def get_url_after_redirect(url: str) -> str:

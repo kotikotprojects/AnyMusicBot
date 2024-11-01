@@ -1,8 +1,7 @@
 from attrs import define
 
-from .driver import DeezerDriver
-
 from ..common.song import BaseSongItem
+from .driver import DeezerDriver
 
 
 @define

@@ -1,8 +1,8 @@
-from aiogram.types import InlineQueryResultDocument, InlineQueryResultCachedAudio
+from aiogram.types import InlineQueryResultCachedAudio, InlineQueryResultDocument
 
-from bot.modules.soundcloud import soundcloud
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
+from bot.modules.soundcloud import soundcloud
 
 from ..common.search import get_common_search_result
 

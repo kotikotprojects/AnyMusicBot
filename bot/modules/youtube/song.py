@@ -1,11 +1,10 @@
-from attrs import define
-import ytmusicapi
-
-from .downloader import Downloader, YouTubeBytestream
-
 from typing import Awaitable
 
+import ytmusicapi
+from attrs import define
+
 from ..common.song import BaseSongItem
+from .downloader import Downloader, YouTubeBytestream
 
 
 @define

@@ -1,9 +1,8 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.error import get_error_search_results
 from bot.filters import ServiceSearchFilter
+from bot.results.error import get_error_search_results
 
 router = Router()
 

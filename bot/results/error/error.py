@@ -1,12 +1,8 @@
-from aiogram.types import (
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-)
-
-from bot.modules.database import db
-from bot.modules.error import Error
+from aiogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 from bot.common import console
+from bot.modules.database import db
+from bot.modules.error import Error
 
 
 async def get_error_search_results(

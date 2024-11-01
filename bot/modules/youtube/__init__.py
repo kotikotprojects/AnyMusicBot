@@ -1,6 +1,6 @@
-from .youtube import YouTube
 from pytubefix.exceptions import AgeRestrictedError
 
+from .youtube import YouTube
 
 youtube = YouTube()
 

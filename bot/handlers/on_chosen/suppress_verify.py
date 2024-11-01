@@ -1,7 +1,5 @@
-from aiogram import Router, Bot, F
-from aiogram.types import (
-    ChosenInlineResult,
-)
+from aiogram import Bot, F, Router
+from aiogram.types import ChosenInlineResult
 
 router = Router()
 

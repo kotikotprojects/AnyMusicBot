@@ -3,10 +3,8 @@ from __future__ import annotations
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
-
 from shazamio.schemas.attributes import AttributeName
-from shazamio.schemas.base import BaseHrefNextData
-from shazamio.schemas.base import BaseIdTypeHref
+from shazamio.schemas.base import BaseHrefNextData, BaseIdTypeHref
 from shazamio.schemas.photos import ImageModel
 
 

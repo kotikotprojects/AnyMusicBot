@@ -1,12 +1,11 @@
 # https://pypi.org/project/music-helper/
-import warnings
-import re
 import hashlib
-
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import re
+import warnings
 
 from attrs import define
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from .track_formats import TrackFormat
 

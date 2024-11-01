@@ -1,10 +1,10 @@
 from aiogram import Router
 
 from . import (
-    on_inline_spotify,
     on_inline_deezer,
-    on_inline_youtube,
     on_inline_soundcloud,
+    on_inline_spotify,
+    on_inline_youtube,
 )
 
 router = Router()

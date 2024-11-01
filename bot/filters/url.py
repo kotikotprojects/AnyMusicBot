@@ -1,7 +1,7 @@
+from urllib.parse import urlparse
+
 from aiogram.filters import BaseFilter
 from aiogram.types import InlineQuery
-
-from urllib.parse import urlparse
 
 
 class MusicUrlFilter(BaseFilter):

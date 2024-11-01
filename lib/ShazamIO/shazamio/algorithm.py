@@ -1,5 +1,6 @@
 from copy import copy
-from typing import List, Optional, Any
+from typing import Any, List, Optional
+
 import numpy as np
 
 from .enums import FrequencyBand

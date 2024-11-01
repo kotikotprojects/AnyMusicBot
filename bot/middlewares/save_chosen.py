@@ -1,8 +1,8 @@
+from dataclasses import dataclass
+from typing import Any, Awaitable, Callable, Dict
+
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
 from aiogram.types import ChosenInlineResult
-
-from typing import Any, Awaitable, Callable, Dict
-from dataclasses import dataclass
 
 from bot.modules.database import db
 

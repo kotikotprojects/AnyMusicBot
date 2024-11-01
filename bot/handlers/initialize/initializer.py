@@ -1,6 +1,5 @@
-from aiogram import Router, Bot
+from aiogram import Bot, Router
 from rich import print
-
 
 router = Router()
 

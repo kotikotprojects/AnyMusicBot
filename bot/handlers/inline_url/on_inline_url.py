@@ -1,10 +1,9 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.url import get_url_results
 from bot.filters import MusicUrlFilter
 from bot.modules.settings import UserSettings
+from bot.results.url import get_url_results
 
 router = Router()
 

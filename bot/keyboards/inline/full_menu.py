@@ -1,10 +1,10 @@
 from aiogram.utils.keyboard import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
     InlineKeyboardBuilder,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
-from bot.factories.full_menu import FullMenuCallback
 
+from bot.factories.full_menu import FullMenuCallback
 from bot.keyboards.inline import search_variants as sv
 
 

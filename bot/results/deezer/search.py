@@ -1,7 +1,7 @@
-from aiogram.types import InlineQueryResultDocument, InlineQueryResultCachedAudio
+from aiogram.types import InlineQueryResultCachedAudio, InlineQueryResultDocument
 
-from bot.modules.deezer import deezer
 from bot.modules.database import db
+from bot.modules.deezer import deezer
 from bot.modules.settings import UserSettings
 
 from ..common.search import get_common_search_result

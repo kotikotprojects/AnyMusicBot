@@ -1,2 +1,2 @@
-from .handler import on_error, Error
+from .handler import Error, on_error
 from .pretty import PrettyException

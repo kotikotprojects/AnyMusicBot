@@ -1,15 +1,15 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
     BufferedInputFile,
-    URLInputFile,
-    InputMediaAudio,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.youtube import youtube, AgeRestrictedError
-from bot.utils.config import config
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
+from bot.modules.youtube import AgeRestrictedError, youtube
+from bot.utils.config import config
 
 router = Router()
 

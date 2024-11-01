@@ -1,15 +1,13 @@
-from urllib.parse import urlparse, ParseResult
 from dataclasses import dataclass
-
-from typing import Callable, Awaitable, Literal
+from typing import Awaitable, Callable, Literal
+from urllib.parse import ParseResult, urlparse
 
 from bot.modules.database import db
 from bot.modules.database.db import DBDict
-
-from bot.modules.youtube import youtube
-from bot.modules.spotify import spotify
 from bot.modules.deezer import deezer
 from bot.modules.soundcloud import soundcloud
+from bot.modules.spotify import spotify
+from bot.modules.youtube import youtube
 
 
 @dataclass

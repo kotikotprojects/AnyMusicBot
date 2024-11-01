@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
-
 from shazamio.schemas.attributes import AttributeName
 from shazamio.schemas.base import BaseDataModel
 from shazamio.schemas.photos import ImageModel

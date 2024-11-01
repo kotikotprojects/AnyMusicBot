@@ -1,11 +1,11 @@
 from aiogram.utils.keyboard import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
     InlineKeyboardBuilder,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
-from bot.factories.open_setting import SettingChoiceCallback
-from bot.factories.full_menu import FullMenuCallback
 
+from bot.factories.full_menu import FullMenuCallback
+from bot.factories.open_setting import SettingChoiceCallback
 from bot.modules.settings import UserSettings
 
 

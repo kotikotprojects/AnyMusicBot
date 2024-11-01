@@ -1,5 +1,5 @@
-from attrs import define
 import spotipy
+from attrs import define
 
 from ..common.song import BaseSongItem
 

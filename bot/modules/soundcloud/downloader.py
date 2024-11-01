@@ -1,10 +1,10 @@
-from attrs import define
 from typing import Callable
+
+import m3u8
+from attrs import define
 
 from .driver import SoundCloudDriver
 from .song import SongItem
-
-import m3u8
 
 
 @define

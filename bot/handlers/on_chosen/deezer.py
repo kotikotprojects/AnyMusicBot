@@ -1,14 +1,14 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
     BufferedInputFile,
-    URLInputFile,
-    InputMediaAudio,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.deezer import deezer, DeezerBytestream
-from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.deezer import DeezerBytestream, deezer
+from bot.utils.config import config
 
 router = Router()
 

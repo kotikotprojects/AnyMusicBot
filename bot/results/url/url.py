@@ -1,11 +1,11 @@
-from aiogram.types import InlineQueryResultDocument, InlineQueryResultCachedAudio
+import inspect
 
-from bot.modules.url import recognise_music_service, get_id
+from aiogram.types import InlineQueryResultCachedAudio, InlineQueryResultDocument
+
 from bot.modules.settings import UserSettings
+from bot.modules.url import get_id, recognise_music_service
 
 from ..common.search import get_common_search_result
-
-import inspect
 
 
 async def get_url_results(

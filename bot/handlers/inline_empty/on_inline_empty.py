@@ -1,5 +1,5 @@
-from aiogram import Router, F
-from aiogram.types import InlineQuery, InputTextMessageContent, InlineQueryResultArticle
+from aiogram import F, Router
+from aiogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent
 
 from bot.keyboards.inline.full_menu import get_full_menu_kb
 

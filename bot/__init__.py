@@ -1,11 +1,11 @@
-from rich import print
 import contextlib
+
+from rich import print
 
 
 async def runner():
-    from .common import dp, bot
-
-    from . import handlers, callbacks
+    from . import callbacks, handlers
+    from .common import bot, dp
     from .modules.error import on_error
 
     dp.error.register(on_error)
@@ -20,8 +20,8 @@ async def runner():
 
 def plugins():
     import nest_asyncio
-    from rich import traceback
     from icecream import ic
+    from rich import traceback
 
     nest_asyncio.apply()
     traceback.install()

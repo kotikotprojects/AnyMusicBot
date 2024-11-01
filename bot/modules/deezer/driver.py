@@ -1,7 +1,6 @@
 from attrs import define
 
 from .engine import DeezerEngine
-
 from .util import clean_query
 
 

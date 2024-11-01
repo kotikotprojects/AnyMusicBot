@@ -1,14 +1,14 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
     BufferedInputFile,
-    URLInputFile,
-    InputMediaAudio,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.soundcloud import soundcloud, SoundCloudBytestream
-from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.soundcloud import SoundCloudBytestream, soundcloud
+from bot.utils.config import config
 
 router = Router()
 

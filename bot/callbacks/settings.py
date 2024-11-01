@@ -1,11 +1,10 @@
-from aiogram import Router, Bot
-from aiogram.types import CallbackQuery
+from aiogram import Bot, Router
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import CallbackQuery
 
 from bot.factories.open_setting import OpenSettingCallback, SettingChoiceCallback
-
 from bot.keyboards.inline.setting import get_setting_kb
-from bot.modules.settings import settings_strings, UserSettings
+from bot.modules.settings import UserSettings, settings_strings
 
 router = Router()
 

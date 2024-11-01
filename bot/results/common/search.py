@@ -1,16 +1,15 @@
-from aiogram.types import (
-    InlineQueryResultDocument,
-    InlineQueryResultCachedAudio,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
-
-from bot.modules.database.db import DBDict
-from bot.modules.settings import UserSettings
-
-from bot.modules.common.song import BaseSongItem
 from typing import TypeVar
 
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InlineQueryResultCachedAudio,
+    InlineQueryResultDocument,
+)
+
+from bot.modules.common.song import BaseSongItem
+from bot.modules.database.db import DBDict
+from bot.modules.settings import UserSettings
 
 BaseSongT = TypeVar("BaseSongT", bound=BaseSongItem)
 

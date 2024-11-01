@@ -1,12 +1,11 @@
-from attrs import define
-
 from io import BytesIO
 
-from .driver import DeezerDriver
+from attrs import define
 
 from . import track_formats
-from .util import UrlDecrypter, ChunkDecrypter
+from .driver import DeezerDriver
 from .song import FullSongItem
+from .util import ChunkDecrypter, UrlDecrypter
 
 
 @define

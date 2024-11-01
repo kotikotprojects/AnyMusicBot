@@ -1,7 +1,7 @@
 import ytmusicapi
 
-from .song import Songs
 from .downloader import Downloader
+from .song import Songs
 
 
 class YouTube(object):

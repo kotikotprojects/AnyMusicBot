@@ -1,9 +1,9 @@
 import asyncio
 
-from .song import Songs
-from .engine import DeezerEngine
-from .driver import DeezerDriver
 from .downloader import DownloaderBuilder
+from .driver import DeezerDriver
+from .engine import DeezerEngine
+from .song import Songs
 
 
 class Deezer(object):

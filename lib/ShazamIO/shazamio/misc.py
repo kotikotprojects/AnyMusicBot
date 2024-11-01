@@ -1,4 +1,5 @@
 from random import choice
+
 from shazamio.user_agent import USER_AGENTS
 
 

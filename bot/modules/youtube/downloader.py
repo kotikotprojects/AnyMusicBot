@@ -1,12 +1,10 @@
-from attrs import define
-from pytubefix import YouTube, Stream
-
-from pydub import AudioSegment
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
-from concurrent.futures import ThreadPoolExecutor
-
-import asyncio
+from attrs import define
+from pydub import AudioSegment
+from pytubefix import Stream, YouTube
 
 
 @define

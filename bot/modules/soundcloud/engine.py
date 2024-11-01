@@ -1,5 +1,5 @@
-from attrs import define
 import aiohttp
+from attrs import define
 
 
 @define

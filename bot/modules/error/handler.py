@@ -1,14 +1,14 @@
-from bot.common import console
-from aiogram.types.error_event import ErrorEvent
+from dataclasses import dataclass
+
 from aiogram import Bot
 from aiogram.dispatcher import router as s_router
-
+from aiogram.types.error_event import ErrorEvent
 from rich.traceback import Traceback
-from .pretty import PrettyException
 
+from bot.common import console
 from bot.modules.database import db
 
-from dataclasses import dataclass
+from .pretty import PrettyException
 
 
 @dataclass
@@ -19,8 +19,8 @@ class Error:
 
 
 async def on_error(event: ErrorEvent, bot: Bot):
-    import os
     import base64
+    import os
 
     error_id = base64.urlsafe_b64encode(os.urandom(6)).decode()
 

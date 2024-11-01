@@ -1,10 +1,9 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.spotify import get_spotify_search_results
 from bot.filters import ServiceSearchFilter
 from bot.modules.settings import UserSettings
+from bot.results.spotify import get_spotify_search_results
 
 router = Router()
 

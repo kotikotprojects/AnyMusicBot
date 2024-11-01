@@ -1,13 +1,8 @@
 from typing import Union
 
-from shazamio.factory_misc import FACTORY_ARTIST
-from shazamio.factory_misc import FACTORY_TRACK
-from shazamio.schemas.artists import ArtistInfo
-from shazamio.schemas.artists import ArtistResponse
-from shazamio.schemas.artists import ArtistV2
-from shazamio.schemas.models import ResponseTrack
-from shazamio.schemas.models import TrackInfo
-from shazamio.schemas.models import YoutubeData
+from shazamio.factory_misc import FACTORY_ARTIST, FACTORY_TRACK
+from shazamio.schemas.artists import ArtistInfo, ArtistResponse, ArtistV2
+from shazamio.schemas.models import ResponseTrack, TrackInfo, YoutubeData
 
 
 class Serialize:

@@ -1,13 +1,10 @@
-from bot.modules.database import db
 from dataclasses import dataclass, field
 from typing import Any, DefaultDict, Dict, Optional
 
 from aiogram.fsm.state import State
-from aiogram.fsm.storage.base import (
-    BaseStorage,
-    StateType,
-    StorageKey,
-)
+from aiogram.fsm.storage.base import BaseStorage, StateType, StorageKey
+
+from bot.modules.database import db
 
 
 @dataclass

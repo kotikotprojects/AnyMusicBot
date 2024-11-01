@@ -1,8 +1,7 @@
-from aiogram import Router, F, Bot
+from aiogram import Bot, F, Router
 from aiogram.types import CallbackQuery
 
 from bot.factories.full_menu import FullMenuCallback
-
 from bot.keyboards.inline.full_menu import get_full_menu_kb
 
 router = Router()
