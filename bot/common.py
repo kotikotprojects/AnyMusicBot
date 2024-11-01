@@ -8,4 +8,4 @@ dp = Dispatcher(storage=InDbStorage())
 console = Console()
 
 
-__all__ = ['bot', 'dp', 'config', 'console']
+__all__ = ["bot", "dp", "config", "console"]

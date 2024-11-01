@@ -7,4 +7,4 @@ router = Router()
 
 @router.startup()
 async def startup(bot: Bot):
-    print(f'[green]Started as[/] @{(await bot.me()).username}')
+    print(f"[green]Started as[/] @{(await bot.me()).username}")

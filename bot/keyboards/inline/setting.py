@@ -1,5 +1,8 @@
-from aiogram.utils.keyboard import (InlineKeyboardMarkup, InlineKeyboardButton,
-                                    InlineKeyboardBuilder)
+from aiogram.utils.keyboard import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    InlineKeyboardBuilder,
+)
 from bot.factories.open_setting import SettingChoiceCallback
 from bot.factories.full_menu import FullMenuCallback
 
@@ -11,22 +14,21 @@ def get_setting_kb(s_id: str, user_id: str) -> InlineKeyboardMarkup:
     buttons = [
         [
             InlineKeyboardButton(
-                text=(
-                         '✅ ' if setting.value == choice else ''
-                     ) + setting.choices[choice],
+                text=("✅ " if setting.value == choice else "")
+                + setting.choices[choice],
                 callback_data=SettingChoiceCallback(
                     s_id=s_id,
                     choice=choice,
-                ).pack()
+                ).pack(),
             )
-        ] for choice in setting.choices.keys()
-    ] + [[
-        InlineKeyboardButton(
-            text='🔙',
-            callback_data=FullMenuCallback(
-                action='settings'
-            ).pack()
-        )
-    ]]
+        ]
+        for choice in setting.choices.keys()
+    ] + [
+        [
+            InlineKeyboardButton(
+                text="🔙", callback_data=FullMenuCallback(action="settings").pack()
+            )
+        ]
+    ]
 
     return InlineKeyboardBuilder(buttons).as_markup()

@@ -10,11 +10,11 @@ class SongItem(BaseSongItem):
     @classmethod
     def from_deezer(cls, song_item: dict):
         return cls(
-            name=song_item['title'],
-            id=str(song_item['id']),
-            artists=[song_item['artist']['name']],
-            preview_url=song_item.get('preview'),
-            thumbnail=song_item['album']['cover_medium']
+            name=song_item["title"],
+            id=str(song_item["id"]),
+            artists=[song_item["artist"]["name"]],
+            preview_url=song_item.get("preview"),
+            thumbnail=song_item["album"]["cover_medium"],
         )
 
 
@@ -25,21 +25,23 @@ class FullSongItem(BaseSongItem):
 
     @classmethod
     async def from_deezer(cls, song_item: dict):
-        if song_item.get('results'):
-            song_item = song_item['results']
+        if song_item.get("results"):
+            song_item = song_item["results"]
 
         return cls(
-            name=song_item['SNG_TITLE'],
-            id=song_item['SNG_ID'],
-            artists=[artist['ART_NAME'] for artist in song_item['ARTISTS']],
-            preview_url=(song_item.get('MEDIA').get('HREF')
-                         if type(song_item.get('MEDIA')) is dict and
-                         song_item.get('MEDIA').get('TYPE') == 'preview'
-                         else None),
-            thumbnail=f'https://e-cdns-images.dzcdn.net/images/cover/'
-                      f'{song_item["ALB_PICTURE"]}/320x320.jpg',
-            duration=int(song_item['DURATION']),
-            track_dict=song_item
+            name=song_item["SNG_TITLE"],
+            id=song_item["SNG_ID"],
+            artists=[artist["ART_NAME"] for artist in song_item["ARTISTS"]],
+            preview_url=(
+                song_item.get("MEDIA").get("HREF")
+                if type(song_item.get("MEDIA")) is dict
+                and song_item.get("MEDIA").get("TYPE") == "preview"
+                else None
+            ),
+            thumbnail=f"https://e-cdns-images.dzcdn.net/images/cover/"
+            f'{song_item["ALB_PICTURE"]}/320x320.jpg',
+            duration=int(song_item["DURATION"]),
+            track_dict=song_item,
         )
 
 

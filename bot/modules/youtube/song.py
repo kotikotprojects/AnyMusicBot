@@ -15,19 +15,19 @@ class SongItem(BaseSongItem):
     @classmethod
     def from_youtube(cls, song_item: dict):
         return cls(
-            name=song_item['title'],
-            id=song_item['videoId'],
-            artists=[artist['name'] for artist in song_item['artists']],
-            thumbnail=song_item['thumbnails'][1]['url']
+            name=song_item["title"],
+            id=song_item["videoId"],
+            artists=[artist["name"] for artist in song_item["artists"]],
+            thumbnail=song_item["thumbnails"][1]["url"],
         )
 
     @classmethod
     def from_details(cls, details: dict):
         return cls(
-            name=details['title'],
-            id=details['videoId'],
-            artists=details['author'].split(' & '),
-            thumbnail=details['thumbnail']['thumbnails'][1]['url']
+            name=details["title"],
+            id=details["videoId"],
+            artists=details["author"].split(" & "),
+            thumbnail=details["thumbnail"]["thumbnails"][1]["url"],
         )
 
     def to_bytestream(self) -> Awaitable[YouTubeBytestream]:
@@ -39,16 +39,10 @@ class Songs(object):
     ytm: ytmusicapi.YTMusic
 
     def search(
-            self,
-            query: str,
-            limit: int = 10,
-            exact_match: bool = False
+        self, query: str, limit: int = 10, exact_match: bool = False
     ) -> list[SongItem] | None:
         r = self.ytm.search(
-            query,
-            limit=limit,
-            filter='songs',
-            ignore_spelling=exact_match
+            query, limit=limit, filter="songs", ignore_spelling=exact_match
         )
 
         if r is None:
@@ -68,4 +62,4 @@ class Songs(object):
         if r is None:
             return None
 
-        return SongItem.from_details(r['videoDetails'])
+        return SongItem.from_details(r["videoDetails"])

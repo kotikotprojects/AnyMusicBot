@@ -34,20 +34,20 @@ class UrlDecrypter:
     media_version: str
 
     def get_url_for(self, track_format: TrackFormat):
-        step1 = (f'{self.md5_origin}¤{track_format.code}¤'
-                 f'{self.track_id}¤{self.media_version}')
+        step1 = (
+            f"{self.md5_origin}¤{track_format.code}¤"
+            f"{self.track_id}¤{self.media_version}"
+        )
         m = hashlib.md5()
         m.update(bytes([ord(x) for x in step1]))
 
-        step2 = f'{m.hexdigest()}¤{step1}¤'
+        step2 = f"{m.hexdigest()}¤{step1}¤"
         step2 = step2.ljust(80, " ")
 
         cipher = Cipher(
-            algorithm=algorithms.AES(
-                key=bytes('jo6aey6haid2Teih', 'ascii')
-            ),
+            algorithm=algorithms.AES(key=bytes("jo6aey6haid2Teih", "ascii")),
             mode=modes.ECB(),
-            backend=default_backend()
+            backend=default_backend(),
         )
 
         encryptor = cipher.encryptor()
@@ -55,7 +55,7 @@ class UrlDecrypter:
 
         cdn = self.md5_origin[0]
 
-        return f'https://e-cdns-proxy-{cdn}.dzcdn.net/mobile/1/{step3}'
+        return f"https://e-cdns-proxy-{cdn}.dzcdn.net/mobile/1/{step3}"
 
 
 @define
@@ -69,12 +69,10 @@ class ChunkDecrypter:
             cipher = Cipher(
                 algorithms.Blowfish(get_blowfish_key(track_id)),
                 modes.CBC(bytes([i for i in range(8)])),
-                default_backend()
+                default_backend(),
             )
 
-        return cls(
-            cipher=cipher
-        )
+        return cls(cipher=cipher)
 
     def decrypt_chunk(self, chunk: bytes):
         decryptor = self.cipher.decryptor()
@@ -82,7 +80,7 @@ class ChunkDecrypter:
 
 
 def get_blowfish_key(track_id: str):
-    secret = 'g4el58wc0zvf9na1'
+    secret = "g4el58wc0zvf9na1"
 
     m = hashlib.md5()
     m.update(bytes([ord(x) for x in track_id]))

@@ -12,4 +12,4 @@ router.include_routers(
     suppress_verify.router,
 )
 
-__all__ = ['router']
+__all__ = ["router"]

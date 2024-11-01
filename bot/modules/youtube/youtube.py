@@ -9,6 +9,4 @@ class YouTube(object):
         self.ytm = ytmusicapi.YTMusic()
 
         self.download = Downloader
-        self.songs = Songs(
-            self.ytm
-        )
+        self.songs = Songs(self.ytm)

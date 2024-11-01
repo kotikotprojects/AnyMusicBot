@@ -1,5 +1,8 @@
-from aiogram.utils.keyboard import (InlineKeyboardMarkup, InlineKeyboardButton,
-                                    InlineKeyboardBuilder)
+from aiogram.utils.keyboard import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    InlineKeyboardBuilder,
+)
 from bot.factories.open_setting import OpenSettingCallback
 from bot.factories.full_menu import FullMenuCallback
 
@@ -13,16 +16,16 @@ def get_settings_kb() -> InlineKeyboardMarkup:
                 text=settings_strings[setting_id].name,
                 callback_data=OpenSettingCallback(
                     s_id=setting_id,
-                ).pack()
+                ).pack(),
             )
-        ] for setting_id in settings_strings.keys()
-    ] + [[
-        InlineKeyboardButton(
-            text='🔙',
-            callback_data=FullMenuCallback(
-                action='home'
-            ).pack()
-        )
-    ]]
+        ]
+        for setting_id in settings_strings.keys()
+    ] + [
+        [
+            InlineKeyboardButton(
+                text="🔙", callback_data=FullMenuCallback(action="home").pack()
+            )
+        ]
+    ]
 
     return InlineKeyboardBuilder(buttons).as_markup()

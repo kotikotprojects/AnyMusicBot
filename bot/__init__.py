@@ -33,8 +33,8 @@ def main():
 
     plugins()
 
-    print('Starting...')
+    print("Starting...")
     with contextlib.suppress(KeyboardInterrupt):
         asyncio.run(runner())
 
-    print('[red]Stopped.[/]')
+    print("[red]Stopped.[/]")

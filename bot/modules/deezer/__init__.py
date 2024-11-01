@@ -7,4 +7,4 @@ deezer = Deezer(
     arl=config.tokens.deezer.arl,
 )
 
-__all__ = ['deezer', 'DeezerBytestream']
+__all__ = ["deezer", "DeezerBytestream"]

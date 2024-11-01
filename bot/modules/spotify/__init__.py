@@ -4,7 +4,7 @@ from bot.utils.config import config
 
 spotify = Spotify(
     client_id=config.tokens.spotify.client_id,
-    client_secret=config.tokens.spotify.client_secret
+    client_secret=config.tokens.spotify.client_secret,
 )
 
-__all__ = ['spotify']
+__all__ = ["spotify"]

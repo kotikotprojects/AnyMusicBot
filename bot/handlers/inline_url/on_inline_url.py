@@ -14,5 +14,5 @@ async def url_deezer_inline_query(inline_query: InlineQuery, settings: UserSetti
     await inline_query.answer(
         await get_url_results(inline_query.query, settings),
         cache_time=0,
-        is_personal=True
+        is_personal=True,
     )

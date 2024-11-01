@@ -42,9 +42,9 @@ async def on_error(event: ErrorEvent, bot: Bot):
 
         await bot.edit_message_caption(
             inline_message_id=event.update.chosen_inline_result.inline_message_id,
-            caption=f'💔 <b>ERROR</b> occurred. Use this code to get more information: '
-                    f'<code>{error_id}</code>',
-            parse_mode='HTML',
+            caption=f"💔 <b>ERROR</b> occurred. Use this code to get more information: "
+            f"<code>{error_id}</code>",
+            parse_mode="HTML",
         )
 
     else:
@@ -53,7 +53,7 @@ async def on_error(event: ErrorEvent, bot: Bot):
             exception=pretty_exception,
         )
 
-    console.print(f'[red]{error_id} occurred[/]')
+    console.print(f"[red]{error_id} occurred[/]")
     console.print(event)
     console.print(traceback)
-    console.print(f'-{error_id} occurred-')
+    console.print(f"-{error_id} occurred-")
