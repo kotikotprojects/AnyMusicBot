@@ -4,7 +4,7 @@
 poetry.lock
 config.toml
 
-*/__pycache__/
+**/__pycache__/
 .cache
 
 db.db
