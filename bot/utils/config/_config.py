@@ -5,7 +5,7 @@ class Config(dict):
     def __init__(self, _config: dict = None):
         try:
             if _config is None:
-                config = tomllib.load(open('config.toml', 'rb'))
+                config = tomllib.load(open("config.toml", "rb"))
 
                 super().__init__(**config)
             else:

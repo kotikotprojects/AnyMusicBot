@@ -1,4 +1,5 @@
 from random import choice
+
 from shazamio.user_agent import USER_AGENTS
 
 
@@ -47,9 +48,7 @@ class ShazamUrl:
     )
     LISTENING_COUNTER = "https://www.shazam.com/services/count/v2/web/track/{}"
 
-    SEARCH_ARTIST_V2 = (
-        "https://www.shazam.com/services/amapi/v1/catalog/{endpoint_country}/artists/{artist_id}"
-    )
+    SEARCH_ARTIST_V2 = "https://www.shazam.com/services/amapi/v1/catalog/{endpoint_country}/artists/{artist_id}"
 
 
 class Request:

@@ -1,1 +1,1 @@
-from .model import UserSettings, Setting, settings_strings
+from .model import Setting, UserSettings, settings_strings

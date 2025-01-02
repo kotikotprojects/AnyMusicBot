@@ -1,12 +1,11 @@
-from attrs import define
-
 from io import BytesIO
 
-from .driver import DeezerDriver
+from attrs import define
 
 from . import track_formats
-from .util import UrlDecrypter, ChunkDecrypter
+from .driver import DeezerDriver
 from .song import FullSongItem
+from .util import ChunkDecrypter, UrlDecrypter
 
 
 @define
@@ -17,10 +16,7 @@ class DeezerBytestream:
 
     @classmethod
     def from_bytestream(
-            cls,
-            bytestream: BytesIO,
-            filename: str,
-            full_song: FullSongItem
+        cls, bytestream: BytesIO, filename: str, full_song: FullSongItem
     ):
         bytestream.seek(0)
         return cls(
@@ -38,21 +34,18 @@ class Downloader:
     song: FullSongItem
 
     @classmethod
-    async def build(
-            cls,
-            song_id: str,
-            driver: DeezerDriver
-    ):
+    async def build(cls, song_id: str, driver: DeezerDriver):
         track = await driver.reverse_get_track(song_id)
         try:
             return cls(
                 song_id=str(song_id),
                 driver=driver,
-                track=track['results'],
-                song=await FullSongItem.from_deezer(track)
+                track=track["results"],
+                song=await FullSongItem.from_deezer(track),
             )
         except KeyError:
             from icecream import ic
+
             ic(track)
             await driver.renew_engine()
             return await cls.build(song_id, driver)
@@ -65,7 +58,7 @@ class Downloader:
         audio = BytesIO()
 
         async for chunk in self.driver.engine.get_data_iter(
-                await self._get_download_url(quality=quality)
+            await self._get_download_url(quality=quality)
         ):
             if i % 3 > 0 or len(chunk) < 2 * 1024:
                 audio.write(chunk)
@@ -76,18 +69,16 @@ class Downloader:
         return DeezerBytestream.from_bytestream(
             filename=self.song.full_name + track_formats.TRACK_FORMAT_MAP[quality].ext,
             bytestream=audio,
-            full_song=self.song
+            full_song=self.song,
         )
 
-    async def _get_download_url(self, quality: str = 'MP3_128'):
+    async def _get_download_url(self, quality: str = "MP3_128"):
         md5_origin = self.track["MD5_ORIGIN"]
         track_id = self.track["SNG_ID"]
         media_version = self.track["MEDIA_VERSION"]
 
         url_decrypter = UrlDecrypter(
-            md5_origin=md5_origin,
-            track_id=track_id,
-            media_version=media_version
+            md5_origin=md5_origin, track_id=track_id, media_version=media_version
         )
 
         return url_decrypter.get_url_for(track_formats.TRACK_FORMAT_MAP[quality])
@@ -98,7 +89,4 @@ class DownloaderBuilder:
     driver: DeezerDriver
 
     async def from_id(self, song_id: str):
-        return await Downloader.build(
-            song_id=song_id,
-            driver=self.driver
-        )
+        return await Downloader.build(song_id=song_id, driver=self.driver)

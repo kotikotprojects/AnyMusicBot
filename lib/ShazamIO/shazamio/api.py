@@ -1,21 +1,17 @@
 import pathlib
-import uuid
 import time
-from typing import Optional
+import uuid
+from typing import Any, Dict, Optional, Union
 
 from pydub import AudioSegment
 
-from typing import Dict, Any, Union
-
-from .misc import Request
-from .misc import ShazamUrl
+from .converter import Converter, Geo
+from .enums import GenreMusic
+from .misc import Request, ShazamUrl
 from .schemas.artists import ArtistQuery
 from .signature import DecodedMessage
-from .enums import GenreMusic
-from .converter import Converter, Geo
 from .typehints import CountryCode
-from .utils import ArtistQueryGenerator
-from .utils import get_song
+from .utils import ArtistQueryGenerator, get_song
 
 
 class Shazam(Converter, Geo, Request):
@@ -27,7 +23,9 @@ class Shazam(Converter, Geo, Request):
         self.language = language
         self.endpoint_country = endpoint_country
 
-    async def top_world_tracks(self, limit: int = 200, offset: int = 0) -> Dict[str, Any]:
+    async def top_world_tracks(
+        self, limit: int = 200, offset: int = 0
+    ) -> Dict[str, Any]:
         """
         Search top world tracks
 
@@ -292,7 +290,9 @@ class Shazam(Converter, Geo, Request):
             headers=self.headers(),
         )
 
-    async def search_track(self, query: str, limit: int = 10, offset: int = 0) -> Dict[str, Any]:
+    async def search_track(
+        self, query: str, limit: int = 10, offset: int = 0
+    ) -> Dict[str, Any]:
         """
         Search all tracks by prefix
             :param query: Track full title or prefix title

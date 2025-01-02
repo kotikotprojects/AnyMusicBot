@@ -1,8 +1,8 @@
-from .youtube import YouTube
-from pytube.exceptions import AgeRestrictedError
+from pytubefix.exceptions import AgeRestrictedError
 
+from .youtube import YouTube
 
 youtube = YouTube()
 
 
-__all__ = ['youtube', 'AgeRestrictedError']
+__all__ = ["youtube", "AgeRestrictedError"]

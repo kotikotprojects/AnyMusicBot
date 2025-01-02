@@ -1,11 +1,8 @@
 from aiogram import Router
-from . import (
-    full_menu,
-    on_home,
-    settings,
-)
+
 from bot.middlewares import PrivateButtonMiddleware, SettingsInjectorMiddleware
 
+from . import full_menu, on_home, settings
 
 router = Router()
 

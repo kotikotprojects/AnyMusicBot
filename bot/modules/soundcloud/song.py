@@ -9,13 +9,15 @@ class SongItem(BaseSongItem):
     @classmethod
     def from_soundcloud(cls, song_item: dict):
         return cls(
-            name=song_item['title'],
-            id=str(song_item['id']),
+            name=song_item["title"],
+            id=str(song_item["id"]),
             artists=[],
-            thumbnail=(song_item['artwork_url'] or song_item['user']['avatar_url'] or
-                       'https://soundcloud.com/images/default_avatar_large.png')
-            .replace('large.jpg', 't300x300.jpg'),
-            preview_url=None
+            thumbnail=(
+                song_item["artwork_url"]
+                or song_item["user"]["avatar_url"]
+                or "https://soundcloud.com/images/default_avatar_large.png"
+            ).replace("large.jpg", "t300x300.jpg"),
+            preview_url=None,
         )
 
     @property

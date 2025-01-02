@@ -1,24 +1,21 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.soundcloud import get_soundcloud_search_results
 from bot.filters import ServiceSearchMultiletterFilter
 from bot.modules.settings import UserSettings
+from bot.results.soundcloud import get_soundcloud_search_results
 
 router = Router()
 
 
-@router.inline_query(ServiceSearchMultiletterFilter(['c', 'с']))
+@router.inline_query(ServiceSearchMultiletterFilter(["c", "с"]))
 async def search_soundcloud_inline_query(
-        inline_query: InlineQuery,
-        settings: UserSettings
+    inline_query: InlineQuery, settings: UserSettings
 ):
     await inline_query.answer(
         await get_soundcloud_search_results(
-            inline_query.query.removeprefix('c:').removesuffix('с:'),
-            settings
+            inline_query.query.removeprefix("c:").removesuffix("с:"), settings
         ),
         cache_time=0,
-        is_personal=True
+        is_personal=True,
     )

@@ -11,7 +11,7 @@ class BaseSongItem:
 
     @property
     def all_artists(self):
-        return ', '.join(self.artists)
+        return ", ".join(self.artists)
 
     @property
     def full_name(self):

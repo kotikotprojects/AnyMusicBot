@@ -1,16 +1,12 @@
 import pathlib
 from enum import Enum
 from io import BytesIO
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Union
+from typing import Dict, List, Optional, Union
 
 import aiofiles
 import aiohttp
 from aiohttp import ContentTypeError
 from pydub import AudioSegment
-
 from shazamio.exceptions import FailedDecodeJson
 from shazamio.schemas.artists import ArtistQuery
 

@@ -1,12 +1,10 @@
-from attrs import define
-from pytube import YouTube, Stream
-
-from pydub import AudioSegment
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
-from concurrent.futures import ThreadPoolExecutor
-
-import asyncio
+from attrs import define
+from pydub import AudioSegment
+from pytubefix import Stream, YouTube
 
 
 @define
@@ -16,12 +14,7 @@ class YouTubeBytestream:
     duration: int
 
     @classmethod
-    def from_bytestream(
-            cls,
-            bytestream: BytesIO,
-            filename: str,
-            duration: float
-    ):
+    def from_bytestream(cls, bytestream: BytesIO, filename: str, duration: float):
         bytestream.seek(0)
         return cls(
             file=bytestream.read(),
@@ -30,11 +23,9 @@ class YouTubeBytestream:
         )
 
     def __rerender(self):
-        segment = AudioSegment.from_file(
-            file=BytesIO(self.file)
-        )
+        segment = AudioSegment.from_file(file=BytesIO(self.file))
 
-        self.file = segment.export(BytesIO(), format='mp3', codec='libmp3lame').read()
+        self.file = segment.export(BytesIO(), format="mp3", codec="libmp3lame").read()
         return self
 
     async def rerender(self):
@@ -54,13 +45,18 @@ class Downloader:
     def from_id(cls, yt_id: str):
         video = YouTube.from_id(yt_id)
 
-        audio_stream = video.streams.filter(
-            only_audio=True,
-        ).order_by('abr').desc().first()
+        audio_stream = (
+            video.streams.filter(
+                only_audio=True,
+            )
+            .order_by("abr")
+            .desc()
+            .first()
+        )
 
         return cls(
             audio_stream=audio_stream,
-            filename=f'{audio_stream.default_filename}.mp3',
+            filename=f"{audio_stream.default_filename}.mp3",
             duration=int(video.length),
         )
 

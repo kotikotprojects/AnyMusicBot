@@ -1,57 +1,48 @@
-from aiogram import Router, Bot, F
-from aiogram.types import (
-    BufferedInputFile, InputMediaAudio,
-    ChosenInlineResult,
-)
+from io import BytesIO
 
-from bot.modules.youtube.downloader import YouTubeBytestream
+from aiogram import Bot, F, Router
+from aiogram.types import BufferedInputFile, ChosenInlineResult, InputMediaAudio
 
-from bot.utils.config import config
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
-
-from io import BytesIO
+from bot.modules.youtube.downloader import YouTubeBytestream
+from bot.utils.config import config
 
 router = Router()
 
 
 @router.chosen_inline_result(
-    F.result_id.startswith('spotc::') | F.result_id.startswith('ytc::')
+    F.result_id.startswith("spotc::") | F.result_id.startswith("ytc::")
 )
-async def on_cached_chosen(chosen_result: ChosenInlineResult, bot: Bot,
-                           settings: UserSettings):
-    if settings['recode_youtube'].value != 'yes':
+async def on_cached_chosen(
+    chosen_result: ChosenInlineResult, bot: Bot, settings: UserSettings
+):
+    if settings["recode_youtube"].value != "yes":
         await bot.edit_message_reply_markup(
-            inline_message_id=chosen_result.inline_message_id,
-            reply_markup=None
+            inline_message_id=chosen_result.inline_message_id, reply_markup=None
         )
         return
 
-    if (
-        type(
-            db.recoded.get(
-                song_id := chosen_result.result_id
-                .removeprefix('spotc::')
-                .removeprefix('ytc::')
+    if type(
+        db.recoded.get(
+            song_id := chosen_result.result_id.removeprefix("spotc::").removeprefix(
+                "ytc::"
             )
-        ) in [bool, type(None)]
-    ):
+        )
+    ) in [bool, type(None)]:
         await bot.edit_message_reply_markup(
-            inline_message_id=chosen_result.inline_message_id,
-            reply_markup=None
+            inline_message_id=chosen_result.inline_message_id, reply_markup=None
         )
         return
 
     await bot.edit_message_caption(
         inline_message_id=chosen_result.inline_message_id,
-        caption='🔄 Recoding...',
-        reply_markup=None
+        caption="🔄 Recoding...",
+        reply_markup=None,
     )
 
     message = await bot.forward_message(
-        config.telegram.files_chat,
-        config.telegram.files_chat,
-        db.recoded[song_id]
+        config.telegram.files_chat, config.telegram.files_chat, db.recoded[song_id]
     )
 
     song_io: BytesIO = await bot.download(  # type: ignore
@@ -76,7 +67,7 @@ async def on_cached_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         ),
         thumbnail=BufferedInputFile(
             file=(await bot.download(message.audio.thumbnail.file_id)).read(),
-            filename='thumbnail.jpg'
+            filename="thumbnail.jpg",
         ),
         performer=message.audio.performer,
         title=message.audio.title,
@@ -85,15 +76,15 @@ async def on_cached_chosen(chosen_result: ChosenInlineResult, bot: Bot,
 
     await bot.edit_message_caption(
         inline_message_id=chosen_result.inline_message_id,
-        caption='',
+        caption="",
         reply_markup=None,
     )
     await bot.edit_message_media(
         inline_message_id=chosen_result.inline_message_id,
-        media=InputMediaAudio(media=audio.audio.file_id)
+        media=InputMediaAudio(media=audio.audio.file_id),
     )
 
-    if chosen_result.result_id.startswith('spotc::'):
+    if chosen_result.result_id.startswith("spotc::"):
         db.spotify[song_id] = audio.audio.file_id
     else:
         db.youtube[song_id] = audio.audio.file_id

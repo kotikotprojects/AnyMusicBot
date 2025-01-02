@@ -1,10 +1,9 @@
 from aiogram import Router
-
 from aiogram.types import InlineQuery
 
-from bot.results.url import get_url_results
 from bot.filters import MusicUrlFilter
 from bot.modules.settings import UserSettings
+from bot.results.url import get_url_results
 
 router = Router()
 
@@ -14,5 +13,5 @@ async def url_deezer_inline_query(inline_query: InlineQuery, settings: UserSetti
     await inline_query.answer(
         await get_url_results(inline_query.query, settings),
         cache_time=0,
-        is_personal=True
+        is_personal=True,
     )

@@ -1,7 +1,7 @@
-from .engine import SoundCloudEngine
-from .driver import SoundCloudDriver
-from .song import Songs
 from .downloader import DownloaderBuilder
+from .driver import SoundCloudDriver
+from .engine import SoundCloudEngine
+from .song import Songs
 
 
 class SoundCloud(object):

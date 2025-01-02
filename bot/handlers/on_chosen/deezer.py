@@ -1,21 +1,23 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
-    BufferedInputFile, URLInputFile, InputMediaAudio,
+    BufferedInputFile,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.deezer import deezer, DeezerBytestream
-from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.deezer import DeezerBytestream, deezer
+from bot.utils.config import config
 
 router = Router()
 
 
-@router.chosen_inline_result(F.result_id.startswith('deez::'))
+@router.chosen_inline_result(F.result_id.startswith("deez::"))
 async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
-    bytestream: DeezerBytestream = await (await deezer.downloader.from_id(
-        chosen_result.result_id.removeprefix('deez::')
-    )).to_bytestream()
+    bytestream: DeezerBytestream = await (
+        await deezer.downloader.from_id(chosen_result.result_id.removeprefix("deez::"))
+    ).to_bytestream()
 
     audio = await bot.send_audio(
         chat_id=config.telegram.files_chat,
@@ -34,5 +36,5 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
     await bot.edit_message_media(
         inline_message_id=chosen_result.inline_message_id,
         media=InputMediaAudio(media=audio.audio.file_id),
-        reply_markup=None
+        reply_markup=None,
     )

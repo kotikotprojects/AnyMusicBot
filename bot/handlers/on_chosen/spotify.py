@@ -1,31 +1,34 @@
-from aiogram import Router, Bot, F
+from aiogram import Bot, F, Router
 from aiogram.types import (
-    BufferedInputFile, URLInputFile, InputMediaAudio,
+    BufferedInputFile,
     ChosenInlineResult,
+    InputMediaAudio,
+    URLInputFile,
 )
 
-from bot.modules.spotify import spotify
-from bot.modules.youtube import youtube, AgeRestrictedError
-from bot.modules.youtube.song import SongItem
-from bot.modules.deezer import deezer
-from bot.utils.config import config
 from bot.modules.database import db
+from bot.modules.deezer import deezer
 from bot.modules.settings import UserSettings
+from bot.modules.spotify import spotify
+from bot.modules.youtube import AgeRestrictedError, youtube
+from bot.modules.youtube.song import SongItem
+from bot.utils.config import config
 
 router = Router()
 
 
 def not_strict_name(song, yt_song):
-    if 'feat' in yt_song.name.lower():
+    if "feat" in yt_song.name.lower():
         return any(artist.lower() in yt_song.name.lower() for artist in song.artists)
     else:
         return False
 
 
-@router.chosen_inline_result(F.result_id.startswith('spot::'))
-async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
-                        settings: UserSettings):
-    song = spotify.songs.from_id(chosen_result.result_id.removeprefix('spot::'))
+@router.chosen_inline_result(F.result_id.startswith("spot::"))
+async def on_new_chosen(
+    chosen_result: ChosenInlineResult, bot: Bot, settings: UserSettings
+):
+    song = spotify.songs.from_id(chosen_result.result_id.removeprefix("spot::"))
 
     bytestream = None
     audio = None
@@ -34,14 +37,15 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         song.full_name,
         exact_match=True,
     )
-    if settings['exact_spotify_search'].value == 'yes':
-        if ((song.all_artists != yt_song.all_artists or song.name != yt_song.name)
-                and not not_strict_name(song, yt_song)):
+    if settings["exact_spotify_search"].value == "yes":
+        if (
+            song.all_artists != yt_song.all_artists or song.name != yt_song.name
+        ) and not not_strict_name(song, yt_song):
             await bot.edit_message_caption(
                 inline_message_id=chosen_result.inline_message_id,
-                caption='🙄 Cannot find this song on YouTube, trying Deezer...',
+                caption="🙄 Cannot find this song on YouTube, trying Deezer...",
                 reply_markup=None,
-                parse_mode='HTML',
+                parse_mode="HTML",
             )
             yt_song = None
             bytestream = False
@@ -66,9 +70,9 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
     except AgeRestrictedError:
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
-            caption='🔞 This song is age restricted, trying Deezer...',
+            caption="🔞 This song is age restricted, trying Deezer...",
             reply_markup=None,
-            parse_mode='HTML',
+            parse_mode="HTML",
         )
         yt_song = None
 
@@ -99,29 +103,29 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
             assert e
 
     if audio:
-        if settings['exact_spotify_search'].value == 'yes':
+        if settings["exact_spotify_search"].value == "yes":
             db.spotify[song.id] = audio.audio.file_id
 
         await bot.edit_message_media(
             inline_message_id=chosen_result.inline_message_id,
             media=InputMediaAudio(media=audio.audio.file_id),
-            reply_markup=None
+            reply_markup=None,
         )
 
     else:
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
-            caption='🤷‍♂️ Cannot download this song',
+            caption="🤷‍♂️ Cannot download this song",
             reply_markup=None,
-            parse_mode='HTML',
+            parse_mode="HTML",
         )
 
-    if yt_song and settings['recode_youtube'].value == 'yes':
+    if yt_song and settings["recode_youtube"].value == "yes":
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
-            caption='🔄 Recoding...',
+            caption="🔄 Recoding...",
             reply_markup=None,
-            parse_mode='HTML',
+            parse_mode="HTML",
         )
         await bytestream.rerender()
 
@@ -139,20 +143,20 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot,
         db.youtube[yt_song.id] = audio.audio.file_id
         db.recoded[yt_song.id] = True
 
-        if settings['exact_spotify_search'].value == 'yes':
+        if settings["exact_spotify_search"].value == "yes":
             db.spotify[song.id] = audio.audio.file_id
             db.recoded[song.id] = True
 
         await bot.edit_message_caption(
             inline_message_id=chosen_result.inline_message_id,
-            caption='',
+            caption="",
             reply_markup=None,
         )
         await bot.edit_message_media(
             inline_message_id=chosen_result.inline_message_id,
-            media=InputMediaAudio(media=audio.audio.file_id)
+            media=InputMediaAudio(media=audio.audio.file_id),
         )
-    elif yt_song and settings['recode_youtube'].value == 'no':
+    elif yt_song and settings["recode_youtube"].value == "no":
         db.recoded[yt_song.id] = audio.message_id
-        if settings['exact_spotify_search'].value == 'yes':
+        if settings["exact_spotify_search"].value == "yes":
             db.recoded[song.id] = audio.message_id

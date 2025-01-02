@@ -1,7 +1,7 @@
-import os
-import traceback
 import contextlib
+import os
 import re
+import traceback
 from typing import Type
 
 
@@ -13,12 +13,14 @@ class PrettyException:
 🐊 <code>{e.__traceback__.tb_frame.f_code.co_filename.replace(os.getcwd(), "")}\r
 </code>:{e.__traceback__.tb_frame.f_lineno}
 """
-        self.short = (f'{e.__class__.__name__}: '
-                      f'{"".join(traceback.format_exception_only(e)).strip()}')
+        self.short = (
+            f"{e.__class__.__name__}: "
+            f'{"".join(traceback.format_exception_only(e)).strip()}'
+        )
 
-        self.pretty_exception = (f"{self.long}\n\n"
-                                 f"⬇️ Trace:"
-                                 f"{self.get_full_stack()}")
+        self.pretty_exception = (
+            f"{self.long}\n\n" f"⬇️ Trace:" f"{self.get_full_stack()}"
+        )
 
     @staticmethod
     def get_full_stack():
@@ -40,9 +42,11 @@ class PrettyException:
 
         full_stack = "\n".join(
             [
-                format_line(line)
-                if re.search(line_regex, line)
-                else f"<code>{line}</code>"
+                (
+                    format_line(line)
+                    if re.search(line_regex, line)
+                    else f"<code>{line}</code>"
+                )
                 for line in full_stack.splitlines()
             ]
         )

@@ -1,15 +1,16 @@
 from aiogram import Router
-from . import (
-    initialize,
-    inline_song,
-    inline_url,
-    inline_error,
-    inline_default,
-    inline_empty,
-    on_chosen,
-)
 
 from bot.middlewares import SaveChosenMiddleware, SettingsInjectorMiddleware
+
+from . import (
+    initialize,
+    inline_default,
+    inline_empty,
+    inline_error,
+    inline_song,
+    inline_url,
+    on_chosen,
+)
 
 router = Router()
 
