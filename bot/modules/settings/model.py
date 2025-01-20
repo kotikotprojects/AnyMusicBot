@@ -36,7 +36,7 @@ settings_strings: dict[str, Setting] = {
     "default_search_provider": Setting(
         name="Default search provider",
         description="Which service to use when searching without service filter",
-        choices={"d": "Deezer", "c": "SoundCloud", "y": "YouTube", "s": "Spotify"},
+        choices={"y": "YouTube", "d": "Deezer", "c": "SoundCloud", "s": "Spotify"},
     ),
 }
 
