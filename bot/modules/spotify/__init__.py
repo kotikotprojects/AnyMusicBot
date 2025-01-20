@@ -1,10 +1,10 @@
-from bot.utils.config import config
+from bot.utils import env
 
 from .spotify import Spotify
 
 spotify = Spotify(
-    client_id=config.tokens.spotify.client_id,
-    client_secret=config.tokens.spotify.client_secret,
+    client_id=env.SPOTIFY_CLIENT_ID,
+    client_secret=env.SPOTIFY_CLIENT_SECRET,
 )
 
 __all__ = ["spotify"]

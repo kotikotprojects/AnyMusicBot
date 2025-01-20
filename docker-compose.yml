@@ -1,0 +1,14 @@
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "python3 -m bot"
+    env_file:
+      - .env
+    volumes:
+      - ./:/app/src
+      - data:/app/data
+
+volumes:
+  data:

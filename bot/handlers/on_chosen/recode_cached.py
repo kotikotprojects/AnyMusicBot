@@ -6,7 +6,7 @@ from aiogram.types import BufferedInputFile, ChosenInlineResult, InputMediaAudio
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
 from bot.modules.youtube.downloader import YouTubeBytestream
-from bot.utils.config import config
+from bot.utils import env
 
 router = Router()
 
@@ -42,7 +42,7 @@ async def on_cached_chosen(
     )
 
     message = await bot.forward_message(
-        config.telegram.files_chat, config.telegram.files_chat, db.recoded[song_id]
+        env.FILES_CHAT, env.FILES_CHAT, db.recoded[song_id]
     )
 
     song_io: BytesIO = await bot.download(  # type: ignore
@@ -60,7 +60,7 @@ async def on_cached_chosen(
     await bytestream.rerender()
 
     audio = await bot.send_audio(
-        chat_id=config.telegram.files_chat,
+        chat_id=env.FILES_CHAT,
         audio=BufferedInputFile(
             file=bytestream.file,
             filename=bytestream.filename,

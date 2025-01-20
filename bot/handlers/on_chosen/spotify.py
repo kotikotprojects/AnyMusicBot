@@ -12,7 +12,7 @@ from bot.modules.settings import UserSettings
 from bot.modules.spotify import spotify
 from bot.modules.youtube import AgeRestrictedError, youtube
 from bot.modules.youtube.song import SongItem
-from bot.utils.config import config
+from bot.utils import env
 
 router = Router()
 
@@ -55,7 +55,7 @@ async def on_new_chosen(
             bytestream = await yt_song.to_bytestream()
 
             audio = await bot.send_audio(
-                chat_id=config.telegram.files_chat,
+                chat_id=env.FILES_CHAT,
                 audio=BufferedInputFile(
                     file=bytestream.file,
                     filename=bytestream.filename,
@@ -87,7 +87,7 @@ async def on_new_chosen(
             ).to_bytestream()
 
             audio = await bot.send_audio(
-                chat_id=config.telegram.files_chat,
+                chat_id=env.FILES_CHAT,
                 audio=BufferedInputFile(
                     file=bytestream.file,
                     filename=bytestream.filename,
@@ -130,7 +130,7 @@ async def on_new_chosen(
         await bytestream.rerender()
 
         audio = await bot.send_audio(
-            chat_id=config.telegram.files_chat,
+            chat_id=env.FILES_CHAT,
             audio=BufferedInputFile(
                 file=bytestream.file,
                 filename=bytestream.filename,

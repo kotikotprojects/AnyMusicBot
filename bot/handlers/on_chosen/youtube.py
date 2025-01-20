@@ -9,7 +9,7 @@ from aiogram.types import (
 from bot.modules.database import db
 from bot.modules.settings import UserSettings
 from bot.modules.youtube import AgeRestrictedError, youtube
-from bot.utils.config import config
+from bot.utils import env
 
 router = Router()
 
@@ -32,7 +32,7 @@ async def on_new_chosen(
         return
 
     audio = await bot.send_audio(
-        chat_id=config.telegram.files_chat,
+        chat_id=env.FILES_CHAT,
         audio=BufferedInputFile(
             file=bytestream.file,
             filename=bytestream.filename,
@@ -61,7 +61,7 @@ async def on_new_chosen(
         await bytestream.rerender()
 
         audio = await bot.send_audio(
-            chat_id=config.telegram.files_chat,
+            chat_id=env.FILES_CHAT,
             audio=BufferedInputFile(
                 file=bytestream.file,
                 filename=bytestream.filename,

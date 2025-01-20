@@ -1,7 +1,7 @@
 /.idea/
 /tests/
 
-poetry.lock
+.env
 config.toml
 
 **/__pycache__/

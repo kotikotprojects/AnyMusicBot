@@ -8,7 +8,7 @@ from aiogram.types import (
 
 from bot.modules.database import db
 from bot.modules.soundcloud import SoundCloudBytestream, soundcloud
-from bot.utils.config import config
+from bot.utils import env
 
 router = Router()
 
@@ -22,7 +22,7 @@ async def on_new_chosen(chosen_result: ChosenInlineResult, bot: Bot):
     ).to_bytestream()
 
     audio = await bot.send_audio(
-        chat_id=config.telegram.files_chat,
+        chat_id=env.FILES_CHAT,
         audio=BufferedInputFile(
             file=bytestream.file,
             filename=bytestream.filename,
